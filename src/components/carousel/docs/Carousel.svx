@@ -1,0 +1,556 @@
+<script>
+  import _ from 'lodash'
+  import Carousel from '../components/Carousel/Carousel.svelte'
+  import Color from './components/Color.svelte'
+  import AlbumsPreview from './components/AlbumsPreview/AlbumsPreview.svelte'
+  import Divider from './components/Divider.svelte'
+  import CustomDot from './components/CustomDot.svelte'
+  import images from './data/images.json'
+  import colors from './data/colors.json'
+</script>
+
+# Features!anchorId:features;
+
+## Single item!anchorId:features-single-item;
+<Carousel>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Multiple items!anchorId:features-multiple-items;
+<Carousel
+  particlesToShow={3}
+  particlesToScroll={2}
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  particlesToShow={3}
+  particlesToScroll={2}
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Autoplay!anchorId:features-autoplay;
+<Carousel
+  autoplay
+  autoplayDuration={2000}
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  autoplay
+  autoplayDuration={2000}
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Autoplay with duration progress!anchorId:features-autoplay-duration-progress;
+<Carousel
+  autoplay
+  autoplayDuration={5000}
+  autoplayProgressVisible
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  autoplay
+  autoplayDuration={5000}
+  autoplayProgressVisible
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Autoplay with pause on focus!anchorId:features-autoplay-pause-on-focus;
+**For touchable devices** - tap the carousel to toggle the autoplay.
+**For non-touchable devices** - hover over the carousel to pause the autoplay.
+
+<Carousel
+  autoplay
+  autoplayDuration={5000}
+  autoplayProgressVisible
+  pauseOnFocus
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  autoplay
+  autoplayDuration={5000}
+  autoplayProgressVisible
+  pauseOnFocus
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Marquee mode!anchorId:marquee-mode;
+<Carousel
+  autoplayDuration={0}
+  duration={5000}
+  autoplay
+  timingFunction="linear"
+  dots={false}
+  arrows={false}
+  swiping={false}
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  autoplayDuration={0}
+  duration={5000}
+  autoplay
+  timingFunction="linear"
+  dots={false}
+  arrows={false}
+  swiping={false}
+>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Lazy loading of images!anchorId:features-lazy-loading;
+<Carousel
+  let:loaded
+>
+  {#each images as src, imageIndex (src)}
+    <div class="img-container">
+      {#if loaded.includes(imageIndex)}
+        <img {src} alt="nature" />
+      {/if}
+    </div>
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  let:loaded
+>
+  {#each images as src, imageIndex (src)}
+    <div class="img-container">
+      {#if loaded.includes(imageIndex)}
+        <img {src} alt="nature" />
+      {/if}
+    </div>
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Arrows customization!anchorId:features-arrows-customization;
+<Carousel
+  let:showPrevPage
+  let:showNextPage
+>
+  <div slot="prev" on:click={showPrevPage} class="custom-arrow custom-arrow-prev">
+    <i />
+  </div>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+  <div slot="next" on:click={showNextPage} class="custom-arrow custom-arrow-next">
+    <i />
+  </div>
+</Carousel>
+
+```jsx
+<Carousel
+  let:showPrevPage
+  let:showNextPage
+>
+  <div slot="prev" on:click={showPrevPage} class="custom-arrow custom-arrow-prev">
+    <i />
+  </div>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+  <div slot="next" on:click={showNextPage} class="custom-arrow custom-arrow-next">
+    <i />
+  </div>
+</Carousel>
+```
+
+<Divider />
+
+## Dots customization!anchorId:features-dots-customization;
+<Carousel
+  let:currentPageIndex
+  let:pagesCount
+  let:showPage
+>
+  <div slot="dots" class="custom-dots">
+    {#each Array(pagesCount) as _, pageIndex (pageIndex)}
+      <CustomDot
+        symbol={pageIndex + 1}
+        active={currentPageIndex === pageIndex}
+        on:click={() => showPage(pageIndex)}
+      ></CustomDot>
+    {/each}
+  </div>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+
+```jsx
+<Carousel
+  let:currentPageIndex
+  let:pagesCount
+  let:showPage
+>
+  <div slot="dots" class="custom-dots">
+    {#each Array(pagesCount) as _, pageIndex (pageIndex)}
+      <CustomDot
+        symbol={pageIndex + 1}
+        active={currentPageIndex === pageIndex}
+        on:click={() => showPage(pageIndex)}
+      ></CustomDot>
+    {/each}
+  </div>
+  {#each colors as { color, text } (color)}
+    <Color {color} {text} />
+  {/each}
+</Carousel>
+```
+
+<Divider />
+
+## Use cases!anchorId:features-use-cases;
+<AlbumsPreview />
+
+<Divider />
+
+# Installation!anchorId:installation;
+```bash
+yarn add svelte-carousel
+```
+```bash
+npm install svelte-carousel
+```
+
+Import component:
+```jsx
+<script>
+  import Carousel from 'svelte-carousel'
+  // ...
+</script>
+```
+
+<Divider />
+
+# Props!anchorId:props;
+| Prop                      | Type       | Default         | Description                                   | 
+|---------------------------|------------|-----------------|-----------------------------------------------|
+| `arrows`                  | `boolean`  | `true`          | Enables next/prev arrows                      |
+| `infinite`                | `boolean`  | `true`          | Infinite looping                              |
+| `initialPageIndex`        | `number`   | `0`             | Page to start on                              |
+| `duration`                | `number`   | `500`           | Transition duration (ms)                      |
+| `autoplay`                | `boolean`  | `false`         | Enables auto play of pages                    |
+| `autoplayDuration`        | `number`   | `3000`          | Autoplay change interval (ms)                 |
+| `autoplayDirection`       | `string`   | `'next'`        | Autoplay change direction (`next` or `prev`)  |
+| `pauseOnFocus`            | `boolean`  | `false`         | Pauses autoplay on focus (for touchable devices - tap the carousel to toggle the autoplay, for non-touchable devices - hover over the carousel to pause the autoplay) |
+| `autoplayProgressVisible` | `boolean`  | `false`         | Shows autoplay duration progress indicator    |
+| `dots`                    | `boolean`  | `true`          | Current page indicator dots                   |
+| `timingFunction`          | `string`   | `'ease-in-out'` | CSS animation timing function                 |
+| `swiping`                 | `boolean`  | `true`          | Enables swiping                               |
+| `particlesToShow`         | `number`   | `1`             | Number of elements to show                    |
+| `particlesToScroll`       | `number`   | `1`             | Number of elements to scroll                  |
+
+<Divider />
+
+# Events!anchorId:events;
+
+## pageChange!anchorId:events-page-change;
+It is dispatched on page change.
+
+| Payload field      | Type        | Description                           | 
+|--------------------|-------------|---------------------------------------|
+| `event.detail`     | `number`    | Current page index                    |
+
+```jsx
+<Carousel
+  on:pageChange={
+    event => console.log(`Current page index: ${event.detail}`)
+  }
+>
+  <!-- -->
+</Carousel>
+```
+
+<Divider />
+
+# Slots!anchorId:slots;
+
+## prev and next!anchorId:slots-prev-next;
+They are used for customizing prev and next buttons.
+
+Slot props:
+
+| Prop               | Type        | Description                           | 
+|--------------------|-------------|---------------------------------------|
+| `showPrevPage`     | `function`  | Call it to switch to the previos page |
+| `showNextPage`     | `function`  | Call it to switch to the next page    |
+
+```jsx
+<Carousel
+  let:showPrevPage
+  let:showNextPage
+>
+  <div slot="prev">
+    <!-- -->
+  </div>
+  <div slot="next">
+    <!-- -->
+  </div>
+  <!-- -->
+</Carousel>
+```
+
+## dots!anchorId:slots-dots;
+This slot is used for customizing how dots look like.
+
+Slot props:
+
+| Prop                | Type         | Description                                  | 
+|---------------------|----------  --|----------------------------------------------|
+| `currentPageIndex`  | `number`     | Represents current page index (start from 0) |
+| `pagesCount`        | `number`     | Total pages amount                           |
+| `showPage`          | `function`   | Takes index as page to be shown              |
+
+```jsx
+<Carousel
+  let:currentPageIndex
+  let:pagesCount
+  let:showPage
+>
+  <div slot="dots">
+    <!-- -->
+  </div>
+  <!-- -->
+</Carousel>
+```
+
+## Default slot!anchorId:slots-default;
+This slot takes content for the carousel.
+
+Slot props:
+
+| Prop               | Type       | Description                                                          | 
+|--------------------|------------|----------------------------------------------------------------------|
+| `loaded`           | `number[]` | Contains indexes of pages to be loaded. Can be used for lazy loading |
+| `currentPageIndex` | `number`   | Represents current page index (start from 0)                         |
+
+
+```jsx
+<Carousel
+  let:loaded
+  let:currentPageIndex
+>
+  <div>
+    <!-- -->
+  </div>
+  <!-- -->
+</Carousel>
+```
+
+<Divider />
+
+# Methods!anchorId:methods;
+
+## goTo!anchorId:methods-go-to;
+Navigates to a page by index. `(pageIndex, options) => Promise<void>`.
+
+Arguments:
+
+| Argument           | Type        | Default | Description                  | 
+|--------------------|-------------|---------|------------------------------|
+| `pageIndex`        | `number`    |         | Page number                  |
+| `options.animated` | `boolean`   | `true`  | Should it be animated or not |
+
+```jsx
+<script>
+  // ...
+  let carousel;
+  function goToStartPage() {
+    carousel.goTo(0, { animated: false })
+  }
+</script>
+
+<Carousel
+  bind:this={carousel}
+>
+  <!--  -->
+</Carousel>
+<button class="button" on:click={goToStartPage}>Go</button>
+```
+
+## goToPrev!anchorId:methods-go-to-prev;
+Navigates to the previous page. `(options) => Promise<void>`.
+
+Arguments:
+
+| Argument           | Type        | Default | Description                  | 
+|--------------------|-------------|---------|------------------------------|
+| `options.animated` | `boolean`   | `true`  | Should it be animated or not |
+
+```jsx
+<script>
+  // ...
+  let carousel;
+  function goToPrevPage() {
+    carousel.goToPrev({ animated: false })
+  }
+</script>
+
+<Carousel
+  bind:this={carousel}
+>
+  <!--  -->
+</Carousel>
+<button class="button" on:click={goToPrevPage}>Go</button>
+```
+
+## goToNext!anchorId:methods-go-to-next;
+Navigates to the next page. `(options) => Promise<void>`.
+
+Arguments:
+
+| Argument           | Type        | Default | Description                  | 
+|--------------------|-------------|---------|------------------------------|
+| `options.animated` | `boolean`   | `true`  | Should it be animated or not |
+
+```jsx
+<script>
+  // ...
+  let carousel;
+  function goToNextPage() {
+    carousel.goToNext({ animated: false })
+  }
+</script>
+
+<Carousel
+  bind:this={carousel}
+>
+  <!--  -->
+</Carousel>
+<button class="button" on:click={goToNextPage}>Go</button>
+```
+
+<Divider />
+
+<style>
+  .img-container {
+    display: block;
+    width: 100%;
+    height: 200px;
+  }
+  .img-container > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+  }
+
+  /* custom arrows */
+  .custom-arrow {
+    width: 20px;
+    background-color: #000000;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    transition: opacity 150ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .custom-arrow:hover {
+    opacity: 0.5;
+  }
+  .custom-arrow > i {
+    border: solid #1e1e1e;
+    border-width: 0 5px 5px 0;
+    padding: 5px;
+    position: relative;
+  }
+  .custom-arrow-prev {
+    left: 0;
+  }
+  .custom-arrow-prev > i {
+    transform: rotate(135deg);
+    right: -4px;
+  }
+  .custom-arrow-next {
+    right: 0;
+  }
+  .custom-arrow-next > i {
+    transform: rotate(-45deg);
+    left: -4px;
+  }
+
+  /* custom dots */
+  .custom-dots {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+  }
+</style>

@@ -3,8 +3,9 @@ import { shopifyFetch } from '$lib/utils/shopify.js';
 import { loadCart } from '$lib/utils/shopify';
 
 export const cartQuantity = writable('');
-export const cart = writable([]);
+export const cartItems = writable([]);
 export const search = writable('');
+export const cartOpen = writable(false);
 
 export const getCartItems = async () => {
   let cartId = JSON.parse(localStorage.getItem('cartId'));
@@ -16,6 +17,7 @@ export const getCartItems = async () => {
     shopifyResponse.body?.data?.cart?.lines?.edges?.forEach((d) => {
       sum += d.node.quantity;
     });
+    cartItems.set(shopifyResponse.body?.data?.cart?.lines?.edges)
     cartQuantity.set(sum);
     return shopifyResponse;
   } catch (error) {

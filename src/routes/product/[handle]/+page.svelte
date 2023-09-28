@@ -5,10 +5,11 @@
   import * as Select from "$components/ui/select";
   import Carousel from '$components/carousel';;
   import { browser } from '$app/environment';
-  import { getCartItems } from '$lib/utils/store.js';
+  import { getCartItems } from '$lib/utils/store';
   import Scene from "$components/sleeve/scene.svelte";
   import { getProduct } from '$lib/utils/shopify';
   import { writable } from 'svelte/store';
+  import { cartOpen } from '$lib/utils/store';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -84,6 +85,7 @@
     });
     // Wait for the API to finish before updating cart items
     await getCartItems();
+    cartOpen.set(true);
 
     cartLoading = false;
   }
@@ -206,3 +208,5 @@
     }
   }
 </style>
+
+

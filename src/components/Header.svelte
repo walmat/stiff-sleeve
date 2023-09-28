@@ -1,18 +1,16 @@
 <script>
   import { page } from '$app/stores';
   import Icons from '$components/Icons.svelte';
-  import { cartQuantity } from '../lib/utils/store';
   import { createEventDispatcher } from 'svelte';
+  import { getCartItems, cartQuantity, cartOpen } from '$lib/utils/store';
 
   const dispatch = createEventDispatcher();
 
   $: currentRoute = $page.url.pathname;
 
-  let showMenu = false;
-
-  function openCart() {
-    showMenu = false;
+  async function openCart() {
     dispatch('openCart', true);
+    cartOpen.set(true);
   }
 </script>
 

@@ -3,14 +3,12 @@
   import '../fonts.css';
   import Header from '$components/Header.svelte';
   import ShoppingCart from '$components/ShoppingCart.svelte';
-  import { getCartItems } from '../lib/utils/store';
+  import { getCartItems, cartOpen, cartItems } from '$lib/utils/store';
   import { onMount } from 'svelte';
   import { createCart } from '$lib/utils/shopify';
-
   let cartId;
   let checkoutUrl;
   let cartCreatedAt;
-  let cartItems = [];
 
   onMount(async () => {
     if (typeof window !== 'undefined') {
@@ -29,7 +27,7 @@
       document.addEventListener('keydown', (e) => {
         let keyCode = e.keyCode;
         if (keyCode === 27) {
-          showCart = false;
+          openCartStore.update(value => ({...value, open: false}));
         }
       });
     }
@@ -50,18 +48,13 @@
 
   async function loadCart() {
     const res = await getCartItems();
-    cartItems = res?.body?.data?.cart?.lines?.edges;
+    cartItems.set(res?.body?.data?.cart?.lines?.edges)
   }
 
-  let showCart = false;
   let loading = false;
 
-  async function openCart() {
-    await loadCart();
-    showCart = true;
-  }
   function hideCart() {
-    showCart = false;
+    cartOpen.set(false);
   }
 
   function getCheckoutUrl() {
@@ -95,12 +88,13 @@
     await loadCart();
     loading = false;
   }
+
 </script>
 
-<main class={`${showCart ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full overflow-hidden`}>
-  {#if showCart}
+<main class={`${$cartOpen ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full overflow-hidden`}>
+  {#if $cartOpen}
     <ShoppingCart
-      items={cartItems}
+      items={$cartItems}
       on:click={hideCart}
       on:removeProduct={removeProduct}
       on:addProduct={addToCart}
@@ -108,8 +102,9 @@
       bind:loading
     />
   {/if}
-  <Header on:openCart={openCart} />
+  <Header />
   <div class="min-h-screen h-screen overflow-scroll">
     <slot />
   </div>
 </main>
+

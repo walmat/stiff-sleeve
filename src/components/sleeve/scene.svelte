@@ -10,8 +10,9 @@
 
 	export let product;
 	export let scale = 7.5;
-	let screenSize;
+	export let position = [0, screenSize < 640 ? -1 : 1, 0];
 
+	let screenSize;
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
@@ -24,6 +25,6 @@
 <T.PointLight intensity={100} position={[4, 2, 4]} color="#fff" />
 
 {#await useGltf('/models/sleeve.glb', { useDraco: true }) then sleeve}
-	<T tag={product.name} is={sleeve.scene} position={[0, screenSize < 640 ? -1 : 0, 0]} scale={scale} rotation.y={rotation}/>
+	<T tag={product.name} is={sleeve.scene} position={position} scale={scale} rotation.y={rotation}/>
 {/await}
 

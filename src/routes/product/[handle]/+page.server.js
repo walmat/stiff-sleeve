@@ -2,23 +2,18 @@ import { getProduct, getAllProducts } from '$lib/utils/shopify';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
-  const [resOne, resTwo] = await Promise.all([getProduct(params.handle), getAllProducts()]);
+  const res = await getProduct(params.handle);
 
-  if (resOne.status === 200 && resTwo.status === 200) {
-    const product = resOne.body?.data?.productByHandle;
-    const featuredProducts = resTwo.body?.data?.products.edges.slice(0, 4);
+  if (res.status === 200) {
+    const product = res.body?.data?.productByHandle;
     if (product) {
       return {
-        body: {
-          product,
-          featuredProducts
-        }
+        product
       };
     }
 
     throw error(404)
   } else {
-    let status = resOne.status !== 200 ? resOne.status : resTwo.status
-    throw error(status)
+    throw error(res.status)
   }
 }

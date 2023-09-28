@@ -1,28 +1,52 @@
 <script>
   import { cn } from '$lib/utils';
+  import { onMount } from 'svelte';
   import { Canvas } from '@threlte/core';
   import * as Select from "$components/ui/select";
   import Carousel from '$components/carousel';;
   import { browser } from '$app/environment';
-
   import { getCartItems } from '$lib/utils/store.js';
   import Scene from "$components/sleeve/scene.svelte";
+  import { getProduct } from '$lib/utils/shopify';
+  import { writable } from 'svelte/store';
 
   /** @type {import('./$types').PageData} */
   export let data;
 
+  // Create a writable store for product data
+  export const productData = writable(data);
+
+  // Function to fetch product data
+  async function fetchProductData() {
+    const pageHandle = window.location.pathname.split('/')[2];
+    const res = await getProduct(pageHandle);
+
+    if (res.status === 200) {
+      const product = res.body?.data?.productByHandle;
+      if (product) {
+        productData.set({
+          product,
+        });
+      }
+    }
+  }
+
+  // Fetch product data on component mount and every 5 seconds
+  onMount(async () => {
+    await fetchProductData();
+    setInterval(fetchProductData, 30_000);
+  });
 
   let carousel;
   let selectedOptions = {};
   let cartLoading = false;
   let sizeSoldOut = false;
 
-  let isSoldOut = data?.body?.product?.variants?.edges.every((variant) => {
+  let isSoldOut = $productData?.product?.variants?.edges.every((variant) => {
     return variant.node.availableForSale === false;
   });
 
-  data?.body?.product?.options.forEach((option) => {
-    console.log(data?.body?.product?.variants?.edges);
+  $productData?.product?.options.forEach((option) => {
     selectedOptions = { ...selectedOptions, [option.name]: {
       value: option.values[0],
       label: option.values[0]
@@ -41,7 +65,7 @@
       cartId = JSON.parse(localStorage.getItem('cartId'));
     }
 
-    data.body.product.variants.edges.forEach((variant) => {
+    $productData.product.variants.edges.forEach((variant) => {
       let result = variant.node.selectedOptions.every((option) => {
         return selectedOptions[option.name].value === option.value;
       });
@@ -61,16 +85,17 @@
     cartLoading = false;
   }
 
-  console.log(selectedOptions)
-
+  let screenSize;
 </script>
 
 <svelte:head>
-  <title>{data.body.product.title}</title>
+  <title>{$productData.product.title}</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth={screenSize} />
+
 <div class="h-full w-full">
-  {#if data.body.product}
+  {#if $productData.product}
     <div class="flex flex-col h-full w-full">
       <div class="flex flex-col w-full max-w-[60rem] max-h-[2/3] mx-auto h-2/3">
         {#if browser}
@@ -79,10 +104,10 @@
             dots={false}
           >
             <Canvas>
-              <Scene product={data.body.product} />
+              <Scene product={$productData.product} position={[0, screenSize < 640 ? -1 : 0, 0]} />
             </Canvas>
 
-            {#each data.body.product.images.edges as image}
+            {#each $productData.product.images.edges as image}
               <img
                 alt={image.node.altText}
                 decoding="async"
@@ -96,15 +121,15 @@
         {/if}
       </div>
       <div class="h-1/3 flex flex-col gap-4 p-6 md:w-1/3 md:mx-auto">
-        {#each data.body.product.options as option}
+        {#each $productData.product.options as option}
           <div class="flex">
-            <Select.Root bind:selected={selectedOptions[option.name]} onSelectedChange={e => console.log(e)}>
+            <Select.Root bind:selected={selectedOptions[option.name]} onSelectedChange={e => selectedOptions[option.name] = e.value}>
               <Select.Trigger class="w-full">
                 <Select.Value placeholder="Select a {option.name.toLowerCase()}" />
               </Select.Trigger>
               <Select.Content>
                 <Select.Group>
-                  {#each data.body.product.variants.edges as variant}
+                  {#each $productData.product.variants.edges as variant}
                     <Select.Item disabled={!variant.node.availableForSale} value={variant.node.title} label={variant.node.title}
                       >{variant.node.title}</Select.Item
                     >

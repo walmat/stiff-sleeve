@@ -29,12 +29,15 @@
         });
       }
     }
+
+    isSoldOut = $productData?.product?.variants?.edges.every((variant) => {
+      return variant.node.availableForSale === false;
+    });
   }
 
-  // Fetch product data on component mount and every 5 seconds
   onMount(async () => {
     await fetchProductData();
-    setInterval(fetchProductData, 30_000);
+    setInterval(fetchProductData, 5_000);
   });
 
   let carousel;

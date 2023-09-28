@@ -29,10 +29,10 @@
     --sc-arrow-size: 2px;
   }
   .sc-carousel-arrow__circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: var(--sc-color-rgb-light-50p);
+    width: 24px;
+    height: 48px;
+    border-radius: 8%;
+    background-color: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,10 +41,10 @@
     -webkit-tap-highlight-color: transparent;
   }
   .sc-carousel-arrow__circle:hover {
-    opacity: 0.9;
+    opacity: 0.6;
   }
   .sc-carousel-arrow__arrow {
-    border: solid var(--sc-color-hex-dark);
+    border: solid white;
     border-width: 0 var(--sc-arrow-size) var(--sc-arrow-size) 0;
     padding: var(--sc-arrow-size);
     position: relative;

@@ -26,7 +26,7 @@
 
 <style>
   :root {
-    --sc-arrow-size: 2px;
+    --sc-arrow-size: 3px;
   }
   .sc-carousel-arrow__circle {
     width: 24px;

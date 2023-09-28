@@ -116,7 +116,7 @@
     {#if items.length !== 0}
       <button
         on:click={checkout}
-        class="mt-6 flex w-full items-center justify-center bg-black p-3 text-sm font-medium uppercase text-white rounded-md opacity-90 hover:opacity-100"
+        class="mt-6 flex w-full items-center justify-center bg-black p-3 py-4 text-sm font-medium uppercase text-white rounded-md opacity-90 hover:opacity-100"
       >
         <span>Proceed to Checkout</span>
         {#if loading}

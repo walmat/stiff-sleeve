@@ -23,7 +23,7 @@
 <T.AmbientLight color="#fff" intensity={2.5} />
 <T.PointLight intensity={100} position={[4, 2, 4]} color="#fff" />
 
-{#await useGltf('/models/sleeve.glb') then sleeve}
+{#await useGltf('/models/sleeve.glb', { useDraco: true }) then sleeve}
 	<T tag={product.name} is={sleeve.scene} position={[0, screenSize < 640 ? -1 : 0, 0]} scale={scale} rotation.y={rotation}/>
 {/await}
 

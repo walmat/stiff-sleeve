@@ -1,6 +1,7 @@
 <script>
   import "../app.css";
   import '../fonts.css';
+  import {Instagram} from 'lucide-svelte';
   import Header from '$components/Header.svelte';
   import ShoppingCart from '$components/ShoppingCart.svelte';
   import { getCartItems, cartOpen, cartItems } from '$lib/utils/store';
@@ -103,8 +104,19 @@
     />
   {/if}
   <Header />
-  <div class="min-h-screen h-screen">
+  <div class="min-h-screen h-screen pb-12">
     <slot />
+  </div>
+
+  <div class="absolute flex justify-between bottom-0 bg-[#FAF9F6] left-0 w-full px-6 py-4">
+    <a class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
+      <Instagram />
+      stiffsleeveco
+    </a>
+
+    <p class="text-sm">
+      © {new Date().getFullYear()} Stiff Sleeve Co.
+    </p>
   </div>
 </main>
 

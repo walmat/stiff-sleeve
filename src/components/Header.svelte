@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import Icons from '$components/Icons.svelte';
   import { createEventDispatcher } from 'svelte';
-  import { getCartItems, cartQuantity, cartOpen } from '$lib/utils/store';
+  import { cartQuantity, cartOpen } from '$lib/utils/store';
 
   const dispatch = createEventDispatcher();
 

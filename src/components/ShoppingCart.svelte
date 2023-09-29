@@ -4,12 +4,14 @@
   const dispatch = createEventDispatcher();
   export let loading = false;
   export let items = [];
+
   function addOneItem(item, i) {
     loading = true;
     dispatch('addProduct', {
       body: item.node.merchandise.id
     });
   }
+
   function removeOneItem(item, i) {
     loading = true;
     let quantity = item.node.quantity - 1;
@@ -21,16 +23,7 @@
       }
     });
   }
-  function removeEntireItem(item, i) {
-    loading = true;
-    dispatch('removeProduct', {
-      body: {
-        variantId: item.node.merchandise.id,
-        quantity: 0,
-        lineId: item.node.id
-      }
-    });
-  }
+
   async function checkout() {
     loading = true;
     let checkoutUrl = localStorage.getItem('cartUrl');
@@ -40,22 +33,22 @@
 </script>
 
 <div
-  on:click|self
   class="absolute inset-0 z-50 flex max-h-screen w-full justify-end overflow-hidden bg-black/50"
 >
-  <div class="z-50 w-full bg-white p-6 px-8 md:w-1/2 lg:w-1/3 relative">
+  <div class="z-50 w-full bg-[#FAF9F6] p-6 px-8 md:w-1/2 lg:w-1/3 relative">
     {#if loading}
       <div class="absolute inset-0 bg-black/50 z-50" />
     {/if}
-    <div class="mb-6 flex w-full items-center justify-end">
+    <div class="mb-6 flex w-full items-center justify-between">
+      <h1 class="font-[Aachen] text-lg">Shopping cart</h1>
       <button on:click class="text-sm uppercase opacity-80 hover:opacity-100">
         <Icons strokeColor="#000" type="close" />
       </button>
     </div>
     {#if items.length === 0}
       <div class="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
-        <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white">
-          <Icons type="cart" strokeColor="#000" />
+        <div class="flex h-16 w-16 items-center justify-center rounded-full bg-black">
+          <Icons type="cart" strokeColor="#fff" />
         </div>
         <div class="mt-6 text-center text-2xl font-bold">Your cart is empty.</div>
       </div>
@@ -67,50 +60,42 @@
             alt={item.node.merchandise.product.title}
             decoding="async"
             loading="lazy"
-            class="w-20 flex-none bg-black"
+            class="w-20 flex-none rounded-md bg-stone-300"
             src={item.node.merchandise.product.images.edges[0].node.originalSrc}
           />
           <div class="ml-4 flex w-full flex-col justify-between">
-            <div class="flex w-full justify-between">
-              <di>
-                <p class="text-lg font-medium">{item.node.merchandise.product.title}</p>
-                <p class="text-sm">{item.node.merchandise.title}</p>
-              </di>
+            <div class="flex w-full flex-col justify-start">
+              <p class="text-lg font-semibold">{item.node.merchandise.product.title}</p>
+              <p class="text-sm font-normal">{item.node.merchandise.title}</p>
+            </div>
+
+            <div class="flex w-full items-center justify-between">
+              <div class="flex gap-4 items-center">
+                <button
+                  on:click={() => {
+                    removeOneItem(item, i);
+                  }}
+                  class="ml-auto flex h-4 w-4 items-center justify-center rounded-sm border-black/40 bg-white/0 hover:bg-white/10"
+                >
+                  <Icons type="minus" strokeColor="#000" />
+                </button>
+                <p>{item.node.quantity}</p>
+                <button
+                  on:click={() => {
+                    addOneItem(item, i);
+                  }}
+                  class="flex h-4 w-4 items-center justify-center rounded-sm border-black/40 bg-white/0 hover:bg-white/10"
+                >
+                  <Icons type="plus" strokeColor="#000" />
+                </button>
+              </div>
               <p class="font-medium">${item.node.estimatedCost.totalAmount.amount}</p>
+
             </div>
+
           </div>
         </div>
-        <div class="mb-4 flex w-full">
-          <button
-            on:click={() => {
-              removeEntireItem(item, i);
-            }}
-            class="mr-2 flex h-8 w-8 items-center justify-center border border-black/40 bg-white/0 hover:bg-white/10"
-          >
-            <Icons type="close" strokeColor="#000" />
-          </button>
-          <div class="flex h-8 w-full border border-black/40">
-            <div class="select-none flex h-full items-center px-2 ">
-              {item.node.quantity}
-            </div>
-            <button
-              on:click={() => {
-                removeOneItem(item, i);
-              }}
-              class="ml-auto flex h-8 w-8 items-center justify-center border-l border-black/40 bg-white/0 hover:bg-white/10"
-            >
-              <Icons type="minus" strokeColor="#000" />
-            </button>
-            <button
-              on:click={() => {
-                addOneItem(item, i);
-              }}
-              class="flex h-8 w-8 items-center justify-center border-l border-black/40 bg-white/0 hover:bg-white/10"
-            >
-              <Icons type="plus" strokeColor="#000" />
-            </button>
-          </div>
-        </div>
+        
       {/each}
     </div>
     {#if items.length !== 0}
@@ -169,3 +154,5 @@
     }
   }
 </style>
+
+

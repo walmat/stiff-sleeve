@@ -109,7 +109,7 @@
             dots={false}
           >
             <Canvas>
-              <Scene product={$productData.product} position={[0, screenSize < 640 ? -1 : 0, 0]} />
+              <Scene product={$productData.product} position={[0, screenSize < 640 ? -0.5 : 0, 0]} scale={screenSize < 640 ? 5 : 7.5} />
             </Canvas>
 
             {#each $productData.product.images.edges as image}
@@ -128,7 +128,7 @@
       <div class="h-full flex flex-col gap-4 p-6 md:w-1/3 md:pt-36 pb-20">
         {#each $productData.product.options as option}
           <div class="flex flex-col">
-            <p class="font-bold mb-1">Select a {option.name.toLowerCase()}</p>
+            <p class="font-bold mb-1 font-[Aachen]">Select a {option.name.toLowerCase()}</p>
             <Select.Root bind:selected={selectedOptions[option.name]} onSelectedChange={e => selectedOptions[option.name] = e.value}>
               <Select.Trigger class="w-full">
                 <Select.Value placeholder="Select a {option.name.toLowerCase()}" />
@@ -148,7 +148,7 @@
         <button
           on:click={addToCart}
           aria-disabled={isSoldOut}
-          class={cn('flex w-full items-center justify-center bg-black rounded-md p-4 text-sm uppercase tracking-wide text-white opacity-90 hover:opacity-100', {
+          class={cn('flex w-full font-[Aachen] items-center justify-center bg-black rounded-md p-4 text-sm uppercase tracking-wide text-white opacity-90 hover:opacity-100', {
             'opacity-40 hover:opacity-40 cursor-default': isSoldOut || sizeSoldOut
           })}
         >
@@ -170,7 +170,7 @@
         <hr />
 
 
-        <p class="font-bold">About the product</p>
+        <p class="font-bold font-[Aachen]">About the product</p>
         <p class="text-sm">{$productData.product.description}</p>
 
       </div>

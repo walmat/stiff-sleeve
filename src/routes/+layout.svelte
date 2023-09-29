@@ -95,7 +95,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<main class={`${$cartOpen ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full ${screenSize < 768 ? 'overflow-auto' : 'overflow-hidden'}`}>
+<main class={`text-black h-full min-h-full flex flex-col overflow-hidden`}>
   {#if $cartOpen}
     <ShoppingCart
       items={$cartItems}
@@ -107,7 +107,7 @@
     />
   {/if}
   <Header />
-  <div class="h-full w-full min-h-full">
+  <div class="flex h-full w-full min-h-full pb-[126px]">
     <slot />
   </div>
 

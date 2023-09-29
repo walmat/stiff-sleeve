@@ -99,7 +99,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<div class="flex flex-col h-full w-full">
+<div class="h-full w-full overflow-auto">
   {#if $productData.product}
     <div class="flex flex-col md:flex-row h-full w-full">
       <div class="flex flex-col w-full max-w-[60rem] min-h-[50%] mx-auto h-2/3 md:h-90 md:w-2/3">
@@ -109,7 +109,7 @@
             dots={false}
           >
             <Canvas>
-              <Scene product={$productData.product} position={[0, screenSize < 640 ? -0.5 : 0, 0]} scale={screenSize < 640 ? 5 : 7.5} />
+              <Scene product={$productData.product} />
             </Canvas>
 
             {#each $productData.product.images.edges as image}
@@ -169,7 +169,7 @@
 
         <hr />
 
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 pb-12">
           <p class="font-bold font-[Aachen]">Description</p>
           <p class="text-sm">{$productData.product.description}</p>
         </div>

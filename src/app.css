@@ -56,6 +56,16 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
+  body, html, #svelte {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    overflow: hidden;
+  }
+
   .sc-carousel__carousel-container {
     height: 100% !important;
   }

@@ -18,7 +18,7 @@
 <svelte:window bind:innerWidth={screenSize} />
 
 <T.OrthographicCamera position={[0, 2, 10]} zoom={100} makeDefault>
-	<OrbitControls enableDamping enableZoom={false} target={[0, screenSize < 640 ? 1 : 2, 0]} />
+	<OrbitControls enabled={false} enableDamping enableZoom={false} target={[0, screenSize < 640 ? 1 : 2, 0]} />
 </T.OrthographicCamera>
 
 <T.AmbientLight color="#fff" intensity={2.5} />

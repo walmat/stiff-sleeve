@@ -20,7 +20,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<main class="h-full overflow-hidden grid grid-cols-1 w-full max-w-full">
+<main class="h-full grid grid-cols-1 w-full max-w-full">
   {#each products as { node: product }}
     <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative w-full">
       <Canvas>

@@ -91,7 +91,7 @@
 
 </script>
 
-<main class={`${$cartOpen ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full overflow-hidden`}>
+<main class={`${$cartOpen ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full overflow-auto`}>
   {#if $cartOpen}
     <ShoppingCart
       items={$cartItems}
@@ -103,7 +103,7 @@
     />
   {/if}
   <Header />
-  <div class="min-h-screen h-screen overflow-scroll">
+  <div class="min-h-screen h-screen">
     <slot />
   </div>
 </main>

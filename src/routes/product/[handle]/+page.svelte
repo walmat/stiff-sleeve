@@ -99,7 +99,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<div class="h-full w-full">
+<div class="flex flex-col h-full w-full">
   {#if $productData.product}
     <div class="flex flex-col md:flex-row h-full w-full">
       <div class="flex flex-col w-full max-w-[60rem] min-h-[50%] mx-auto h-2/3 md:h-90 md:w-2/3">
@@ -127,8 +127,8 @@
       </div>
       <div class="h-full flex flex-col gap-4 p-6 md:w-1/3 md:pt-36 pb-20">
         {#each $productData.product.options as option}
-          <div class="flex flex-col">
-            <p class="font-bold mb-1 font-[Aachen]">Select a {option.name.toLowerCase()}</p>
+          <div class="flex gap-1 flex-col">
+            <p class="font-bold font-[Aachen]">Select a {option.name.toLowerCase()}</p>
             <Select.Root bind:selected={selectedOptions[option.name]} onSelectedChange={e => selectedOptions[option.name] = e.value}>
               <Select.Trigger class="w-full">
                 <Select.Value placeholder="Select a {option.name.toLowerCase()}" />
@@ -169,10 +169,10 @@
 
         <hr />
 
-
-        <p class="font-bold font-[Aachen]">About the product</p>
-        <p class="text-sm">{$productData.product.description}</p>
-
+        <div class="flex flex-col gap-1">
+          <p class="font-bold font-[Aachen]">Description</p>
+          <p class="text-sm">{$productData.product.description}</p>
+        </div>
       </div>
     </div>
     

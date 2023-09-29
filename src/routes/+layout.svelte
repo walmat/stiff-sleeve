@@ -90,9 +90,12 @@
     loading = false;
   }
 
+  let screenSize;
 </script>
 
-<main class={`${$cartOpen ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full overflow-auto`}>
+<svelte:window bind:innerWidth={screenSize} />
+
+<main class={`${$cartOpen ? 'h-screen' : 'min-h-screen'} text-black h-full min-h-full ${screenSize < 768 ? 'overflow-auto' : 'overflow-hidden'}`}>
   {#if $cartOpen}
     <ShoppingCart
       items={$cartItems}
@@ -104,7 +107,7 @@
     />
   {/if}
   <Header />
-  <div class="min-h-screen h-screen pb-12">
+  <div class="h-full w-full min-h-full">
     <slot />
   </div>
 

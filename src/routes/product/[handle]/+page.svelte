@@ -109,7 +109,7 @@
             dots={false}
           >
             <Canvas>
-              <Scene product={$productData.product} />
+              <Scene product={$productData.product} position={[0, screenSize < 640 ? -0.25 : 0, 0]} />
             </Canvas>
 
             {#each $productData.product.images.edges as image}

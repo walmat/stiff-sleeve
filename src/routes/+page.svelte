@@ -24,7 +24,7 @@
   {#each products as { node: product }}
     <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative w-full">
       <Canvas>
-        <Scene product={product} />
+        <Scene product={product} position={[0, screenSize < 400 ? -1 : 0, 0]} />
       </Canvas>
     </a>
   {/each}

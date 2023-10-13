@@ -23,12 +23,12 @@
 <svelte:window bind:innerWidth={screenSize} />
 
 {#if !data.authenticated}
-  <main class="h-full w-full flex flex-col justify-center gap-y-20 items-center">    
+  <main class="h-full w-full flex flex-col justify-center gap-y-20 items-center">  
+      
     <form 
       class="group flex flex-col gap-2"
       action="?/password"
       method="post"
-      use:enhance
     >
       <input name="password" class={cn(
         'font-[Aachen] placeholder:text-neutral-400 px-2 py-3 rounded-sm focus:placeholder:text-neutral-600 bg-transparent outline-none focus:bg-stone-200 text-center',

@@ -26,11 +26,10 @@ export const actions = {
     if (!password || password !== _p) {
       return fail(400, {
         success: false,
+        password,
         message: "Incorrect password",
       });
     }
-
-    console.log({ password })
 
     // Create a new session for the user
     const sessionId = await createSession(password, getClientAddress());

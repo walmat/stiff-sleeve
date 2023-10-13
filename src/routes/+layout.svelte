@@ -115,7 +115,7 @@
   </div>
 
   <div class="absolute flex justify-between bottom-0 bg-[#FAF9F6] left-0 w-full px-6 py-4">
-    <a class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
+    <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
       <Instagram />
       stiffsleeveco
     </a>

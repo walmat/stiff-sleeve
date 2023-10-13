@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import Icons from '$components/Icons.svelte';
   import { createEventDispatcher } from 'svelte';
+  import { cn } from '$lib/utils';
   import { cartQuantity, cartOpen } from '$lib/utils/store';
 
   const dispatch = createEventDispatcher();
@@ -12,6 +13,8 @@
     dispatch('openCart', true);
     cartOpen.set(true);
   }
+
+	export let shouldShow;
 </script>
 
 <nav class="flex items-center p-4 lg:px-6">
@@ -25,7 +28,10 @@
     </div>
   </div>
   <div class="ml-auto flex items-center">
-    <button on:click={openCart} class="relative my-2 mx-4">
+    <button on:click={openCart} class={cn('relative my-2 mx-4', {
+      'hidden': !shouldShow,
+      'flex': shouldShow
+    })}>
       <Icons strokeColor="#000" type="cart" />
       <div
         data-test="cart-quantity"

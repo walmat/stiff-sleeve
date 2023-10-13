@@ -1,7 +1,7 @@
 <script>
   import "../app.css";
   import '../fonts.css';
-  import {Instagram} from 'lucide-svelte';
+  import { Instagram } from 'lucide-svelte';
   import Header from '$components/Header.svelte';
   import ShoppingCart from '$components/ShoppingCart.svelte';
   import { getCartItems, cartOpen, cartItems } from '$lib/utils/store';
@@ -90,13 +90,16 @@
     loading = false;
   }
 
+	/** @type {import('./$types').LayoutData} */
+	export let data;
+
   let screenSize;
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
 
 <main class={`text-black h-full min-h-full flex flex-col overflow-hidden`}>
-  {#if $cartOpen}
+  {#if data.authenticated && $cartOpen}
     <ShoppingCart
       items={$cartItems}
       on:click={hideCart}
@@ -106,7 +109,7 @@
       bind:loading
     />
   {/if}
-  <Header />
+  <Header shouldShow={data.authenticated} />
   <div class="flex h-full w-full min-h-full pb-[126px]">
     <slot />
   </div>

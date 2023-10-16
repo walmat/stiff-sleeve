@@ -1,4 +1,5 @@
 import { getAllProducts } from '$lib/utils/shopify';
+import { createCustomer } from '$lib/server/newsletter';
 import { authenticateUser, createSession } from '$lib/server/auth';
 import { error, fail, redirect } from '@sveltejs/kit';
 
@@ -25,9 +26,10 @@ export const actions = {
     const password = data.get("password");
     if (!password || password !== _p) {
       return fail(400, {
-        success: false,
-        password,
-        message: "Incorrect password",
+        password: {
+          success: false,
+          message: "Incorrect password",
+        }
       });
     }
 
@@ -43,12 +45,78 @@ export const actions = {
 
 		throw redirect(303, "/")
 	},
+  
+  subscribe: async ({ request }) => {
+    const data = await request.formData();
+    const email = data.get('email');
+    if (!email) {
+      return fail(400, {
+        subscribe: {
+          success: false,
+          message: 'Email is required',
+        }
+      })
+    };
 
-  subscribe: async ({ params, body }) => {
-    console.log('subscribe', params, body)
+    const sk = import.meta.env.VITE_RECAPTCHA_SECRET_KEY;
+    const token = data.get('_t');
+    if (!token) {
+      return fail(400, {
+        subscribe: {
+          success: false,
+          message: 'Recaptcha token is required',
+        }
+      })
+    }
+
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${sk}&response=${token}`;
+
+    const response = await fetch(url, {
+      method: 'post',
+    })
+
+    if (!response.ok) {
+      return fail(400, {
+        subscribe: {
+          success: false,
+          message: 'Recaptcha token is invalid',
+        }
+      })
+    }
+
+    const json = await response.json();
+    if (!json.success) {
+      return fail(400, {
+        subscribe: {
+          success: false,
+          message: 'Recaptcha token is invalid',
+        }
+      })
+    }
+
+    const customer = await createCustomer(email);
+    if (!customer.body.data.customerCreate.customer) {
+      if (customer.body.data.customerCreate.userErrors[0].message === 'Email has already been taken') {
+        return fail(400, {
+          subscribe: {
+            success: false,
+            message: 'You are already subscribed to the newsletter',
+          }
+        })
+      }
+
+      return fail(400, {
+        subscribe: {
+          success: false,
+          message: customer.body.data.customerCreate.userErrors[0].message ?? 'Failed to subscribe to newsletter',
+        }
+      })
+    }
+
     return {
-      body: {
-        message: 'success'
+      subscribe: {
+        success: true,
+        message: 'Subscribed to the newsletter'
       }
     }
   }

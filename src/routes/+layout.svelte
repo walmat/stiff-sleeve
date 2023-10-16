@@ -5,7 +5,9 @@
   import Header from '$components/Header.svelte';
   import ShoppingCart from '$components/ShoppingCart.svelte';
   import { getCartItems, cartOpen, cartItems } from '$lib/utils/store';
+  import { page } from '$app/stores';  
   import { onMount } from 'svelte';
+  import { cn } from '$lib/utils';
   import { createCart } from '$lib/utils/shopify';
   let cartId;
   let checkoutUrl;
@@ -94,6 +96,8 @@
 	export let data;
 
   let screenSize;
+
+  $: route = $page.url.pathname 
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
@@ -110,7 +114,11 @@
     />
   {/if}
   <Header shouldShow={data.authenticated} />
-  <div class="flex h-full w-full min-h-full pb-[126px]">
+  <div class={
+    cn('flex h-[calc(100%-70px)] w-full', {
+      'pb-[126px]': route !== '/'
+    })
+  }>
     <slot />
   </div>
 
@@ -125,4 +133,5 @@
     </p>
   </div>
 </main>
+
 

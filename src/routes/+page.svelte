@@ -1,15 +1,69 @@
 <script>
   import { Canvas } from '@threlte/core';
   import { cn } from '$lib/utils';
-  import Scene from '$components/sleeve/scene.svelte'
+  import { Mail } from 'lucide-svelte';
+  import { applyAction, deserialize } from '$app/forms';
+  import { invalidateAll } from '$app/navigation';
+  import Scene from '$components/sleeve/scene.svelte';
   import { preparePageTransition } from '$lib/page-transition';
+
+	/** @type {import('./$types').ActionData} */
+	export let form;
 
   preparePageTransition();
 
+  async function doRecaptcha() {
+    return new Promise((resolve, reject) => {
+      grecaptcha.ready(async function() {
+        grecaptcha.execute(sitekey, { action: "submit" }).then(function(token) {
+          resolve(token);
+        }, function(error){
+          reject(error);
+        });
+      });
+    });
+  }
+
+    /** @param {{ currentTarget: EventTarget & HTMLFormElement}} event */
+  async function onSubmitPassword(event) {
+		const data = new FormData(event.target);
+    const response = await fetch(event.target.action, {
+			method: 'POST',
+			body: data
+		});
+
+		const result = deserialize(await response.text());
+    if (result.type === 'success') {
+			await invalidateAll();
+		}
+
+		applyAction(result);
+  }
+
+  /** @param {{ currentTarget: EventTarget & HTMLFormElement}} event */
+  async function onSubscribe(event) {
+    const token = await doRecaptcha();
+		const data = new FormData(event.target);
+    data.set('_t', token);
+
+    const response = await fetch(event.target.action, {
+			method: 'POST',
+			body: data
+		});
+
+		const result = deserialize(await response.text());
+    console.log(result);
+    form = result.data;
+    if (result.type === 'success') {
+			// rerun all `load` functions, following the successful update
+			await invalidateAll();
+		}
+
+		applyAction(result);
+  }
+
   /** @type {import('./$types').PageData} */
   export let data;
-
-  export let form;
 
   let screenSize;
 
@@ -24,20 +78,54 @@
 
 {#if !data.authenticated}
   <main class="h-full w-full flex flex-col justify-center gap-y-20 items-center">  
-      
     <form 
-      class="group flex flex-col gap-2"
+      class="group flex flex-col gap-4 mt-36"
       action="?/password"
       method="post"
+      on:submit|preventDefault={onSubmitPassword}
     >
-      <input name="password" class={cn(
-        'font-[Aachen] placeholder:text-neutral-400 px-2 py-3 rounded-sm focus:placeholder:text-neutral-600 bg-transparent outline-none focus:bg-stone-200 text-center',
-        {
-          ' placeholder:text-red-600': form?.success === false
-        }
-      )} placeholder={form?.message || "enter password"} />
-      <button type="submit" class="group:focus:bg-black font-[Aachen]">view website</button>
+      <input
+        name="password"
+        class={cn(
+          'font-[Aachen] placeholder:text-neutral-400 px-2 py-4 w-[300px] rounded-sm focus:placeholder:text-neutral-600  outline-none bg-stone-200 text-center',
+          {
+            ' placeholder:text-red-600': form?.password?.success === false
+          }
+        )}
+        placeholder={form?.password?.message || "enter password"}
+      />
+      <button type="submit" class="bg-black hover:bg-black/80 text-white py-2.5 px-2 rounded-sm font-[Aachen]">view website</button>
     </form>
+
+    <form
+      class="group flex flex-row gap-0 mt-36 -mb-36"
+      action="?/subscribe"
+      method="POST"
+      on:submit|preventDefault={onSubscribe}
+    >
+      <input
+        name="email"
+        class={cn(
+          'font-[Aachen] w-[300px] placeholder:text-neutral-400 px-2 py-3 rounded-s-sm border-r-white border-r focus:placeholder:text-neutral-600 bg-black text-white outline-none text-center'
+        )}
+        placeholder="enter email for updates"
+      />
+      <button type="submit" class="font-[Aachen] hover:bg-black/80 rounded-e-sm px-4 py-2 bg-black">
+        <Mail class="w-4 h-4 text-white" />
+      </button>
+    </form>
+    <p class={cn(
+      'font-[Aachen] text-center mt-24 min-h-[1.5em]',
+      {
+        'text-green-600': form?.subscribe?.success === true,
+        'text-red-600': form?.subscribe?.success === false
+      }
+    )}>
+      {#if form?.subscribe}
+        {form?.subscribe?.message}
+      {/if}
+    </p>
+    
   </main>
 {:else}
   <main class="h-full grid grid-cols-1 w-full max-w-full">
@@ -50,4 +138,12 @@
     {/each}
   </main>
 {/if}
+
+<style>
+  .grecaptcha-badge { 
+    visibility: hidden !important;
+  }
+</style>
+
+
 

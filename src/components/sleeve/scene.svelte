@@ -14,10 +14,27 @@
 	let innerWidth;
 	let innerHeight;
 
-	let minScale = 7.5; // Set your minimum scale value here
+	let minScale = 6.8; // Set your minimum scale value here
 	let maxScale = 10; // Set your maximum scale value here
 	
   $: isHomepage = $page.route.id === '/';
+
+	function getYPosition() {
+		let denominator;
+		if (innerWidth < 480) {
+			if (isHomepage) {
+				denominator = 45;
+			} else {
+				denominator = 40;
+			}
+		} else if (innerWidth < 784 && isHomepage) {
+			denominator = 75;
+		} else {
+			denominator = 45;
+		}
+	
+		return -innerHeight / (Math.max(minScale, Math.min(maxScale, innerWidth)) * denominator);
+	}
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight} />
@@ -30,5 +47,11 @@
 <T.PointLight intensity={100} position={[4, 2, 4]} color="#fff" />
 
 {#await useGltf('/models/sleeve.glb', { useDraco: true }) then sleeve}
-  <T tag={product.name} is={sleeve.scene} position={[0, -innerHeight / (Math.max(minScale, Math.min(maxScale, innerWidth)) * (innerWidth < 784 && isHomepage ? 75 : 45)), 0]} scale={[Math.max(minScale, Math.min(maxScale, innerWidth / 100)), Math.max(minScale, Math.min(maxScale, innerWidth / 100)), Math.max(minScale, Math.min(maxScale, innerWidth / 100))]} rotation.y={rotation} />
+  <T
+		tag={product.name}
+		is={sleeve.scene}
+		position={[0, getYPosition(), 0]}
+		scale={[Math.max(minScale, Math.min(maxScale, innerWidth / 100)), Math.max(minScale, Math.min(maxScale, innerWidth / 100)), Math.max(minScale, Math.min(maxScale, innerWidth / 100))]} 
+		rotation.y={rotation}
+	/>
 {/await}

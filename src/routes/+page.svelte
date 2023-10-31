@@ -10,6 +10,8 @@
 	/** @type {import('./$types').ActionData} */
 	export let form;
 
+  let sitekey = '6LeRFqAoAAAAAHYzIU-yIYgs7jP_ZMmwcuF_1Naz'
+
   preparePageTransition();
 
   async function doRecaptcha() {
@@ -45,6 +47,8 @@
     const token = await doRecaptcha();
 		const data = new FormData(event.target);
     data.set('_t', token);
+
+    console.log({ data })
 
     const response = await fetch(event.target.action, {
 			method: 'POST',

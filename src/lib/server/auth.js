@@ -2,6 +2,7 @@
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import _crypto from 'crypto';
+import { getPassword } from './sanity';
 
 const algorithm = 'aes-256-gcm';
 const IV_LENGTH = 16;
@@ -74,8 +75,8 @@ export const createSession = (password, ipAddress) => {
   return token;
 }
 
-export const authenticateUser = (event) => {
-  const password = import.meta.env.VITE_SITE_PASSWORD;
+export const authenticateUser = async (event) => {
+  const password = await getPassword();
   const _psk = import.meta.env.VITE_JWT_SECRET;
   if (!password) {
     return true;

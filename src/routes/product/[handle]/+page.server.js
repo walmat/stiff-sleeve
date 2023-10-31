@@ -5,7 +5,7 @@ import { authenticateUser } from '../../../lib/server/auth.js';
 export async function load(event) {
   const { params } = event;
 
-  const authenticated = authenticateUser(event);
+  const authenticated = await authenticateUser(event);
   if (!authenticated) throw redirect(302, '/');
 
   const res = await getProduct(params.handle);

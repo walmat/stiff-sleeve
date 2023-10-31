@@ -2,10 +2,11 @@ import { getAllProducts } from '$lib/utils/shopify';
 import { createCustomer } from '$lib/server/newsletter';
 import { authenticateUser, createSession } from '$lib/server/auth';
 import { error, fail, redirect } from '@sveltejs/kit';
+import { getPassword } from '$lib/server/sanity';
 
 /** @type {import('./$types').RequestHandler} */
 export async function load(event) {
-  const authenticated = authenticateUser(event);
+  const authenticated = await authenticateUser(event);
   const res = await getAllProducts();
   if (res.status === 200) {
     const products = res.body?.data?.products?.edges;
@@ -20,7 +21,7 @@ export async function load(event) {
 
 export const actions = {
 	password: async ({ cookies, request, getClientAddress }) => {
-    const _p = import.meta.env.VITE_SITE_PASSWORD;
+    const _p = await getPassword();
 
     const data = await request.formData();
     const password = data.get("password");

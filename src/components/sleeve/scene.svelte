@@ -14,8 +14,8 @@
 	let innerWidth;
 	let innerHeight;
 
-	let minScale = 7.5; // Set your minimum scale value here
-	let maxScale = 10; // Set your maximum scale value here
+	let minScale = 6; // Set your minimum scale value here
+	let maxScale = 12.5; // Set your maximum scale value here
 	
   $: isHomepage = $page.route.id === '/';
 </script>

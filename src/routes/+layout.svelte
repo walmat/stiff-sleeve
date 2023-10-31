@@ -115,9 +115,7 @@
   {/if}
   <Header shouldShow={data.authenticated} />
   <div class={
-    cn('flex h-[calc(100%-70px)] w-full', {
-      'pb-[126px]': route !== '/'
-    })
+    cn('flex h-full w-full')
   }>
     <slot />
   </div>

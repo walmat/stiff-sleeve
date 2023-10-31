@@ -77,7 +77,7 @@
 <svelte:window bind:innerWidth={screenSize} />
 
 {#if !data.authenticated}
-  <main class="h-full w-full flex flex-col justify-center gap-y-20 items-center">  
+  <div class="h-full w-full flex flex-col justify-center gap-y-20 items-center">  
     <form 
       class="group flex flex-col gap-4 mt-36"
       action="?/password"
@@ -126,17 +126,17 @@
       {/if}
     </p>
     
-  </main>
+  </div>
 {:else}
-  <main class="h-full grid grid-cols-1 w-full max-w-full">
+  <div class="h-full grid grid-cols-1 w-full max-w-full">
     {#each products as { node: product }}
-      <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative w-full">
+      <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-full w-full">
         <Canvas>
-          <Scene product={product} position={[0, screenSize < 400 ? -1 : 0, 0]} />
+          <Scene product={product} />
         </Canvas>
       </a>
     {/each}
-  </main>
+  </div>
 {/if}
 
 <style>

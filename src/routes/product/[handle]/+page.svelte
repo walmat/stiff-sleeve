@@ -90,26 +90,25 @@
     cartLoading = false;
   }
 
-  let screenSize;
+  let screenWidth;
+  let screenHeight;
 </script>
 
 <svelte:head>
   <title>{$productData.product.title}</title>
 </svelte:head>
 
-<svelte:window bind:innerWidth={screenSize} />
-
 <div class="h-full w-full overflow-auto">
   {#if $productData.product}
     <div class="flex flex-col md:flex-row h-full w-full">
-      <div class="flex flex-col w-full max-w-[60rem] min-h-[50%] mx-auto h-2/3 md:h-90 md:w-2/3">
+      <div class="flex flex-col w-full max-w-[60rem] mx-auto md:h-full h-2/3 min-h-[66.666667%] md:h-90 md:w-2/3">
         {#if browser}
           <Carousel
             bind:this={carousel}
             dots={false}
           >
             <Canvas>
-              <Scene product={$productData.product} position={[0, screenSize < 640 ? -0.25 : 0, 0]} />
+              <Scene product={$productData.product} />
             </Canvas>
 
             {#each $productData.product.images.edges as image}
@@ -125,7 +124,7 @@
           </Carousel>
         {/if}
       </div>
-      <div class="h-full flex flex-col gap-4 p-6 md:w-1/3 md:pt-36 pb-20">
+      <div class="h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36 pb-20">
         {#each $productData.product.options as option}
           <div class="flex gap-1 flex-col">
             <p class="font-bold font-[Aachen]">Select a {option.name.toLowerCase()}</p>
@@ -169,7 +168,7 @@
 
         <hr />
 
-        <div class="flex flex-col gap-1 pb-12">
+        <div class="flex flex-col gap-1 pb-36">
           <p class="font-bold font-[Aachen]">Description</p>
           <p class="text-sm">{$productData.product.description}</p>
         </div>

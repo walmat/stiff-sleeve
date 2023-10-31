@@ -69,4 +69,8 @@
   .sc-carousel__carousel-container {
     height: 100% !important;
   }
+
+  .grecaptcha-badge {
+    display: none !important;
+  }
 }

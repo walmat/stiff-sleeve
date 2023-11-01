@@ -1,7 +1,7 @@
 <script>
   import { Canvas } from '@threlte/core';
   import { cn } from '$lib/utils';
-  import { Mail } from 'lucide-svelte';
+  import { Send } from 'lucide-svelte';
   import { applyAction, deserialize } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
   import Scene from '$components/sleeve/scene.svelte';
@@ -47,8 +47,6 @@
     const token = await doRecaptcha();
 		const data = new FormData(event.target);
     data.set('_t', token);
-
-    console.log({ data })
 
     const response = await fetch(event.target.action, {
 			method: 'POST',
@@ -110,12 +108,12 @@
       <input
         name="email"
         class={cn(
-          'font-[Aachen] w-[300px] placeholder:text-neutral-400 px-2 py-3 rounded-s-sm border-r-white border-r focus:placeholder:text-neutral-600 bg-black text-white outline-none text-center'
+          'font-[Aachen] placeholder:text-neutral-400 px-2 py-4 w-[300px] rounded-sm focus:placeholder:text-neutral-600  outline-none bg-stone-200 text-center',
         )}
         placeholder="enter email for updates"
       />
       <button type="submit" class="font-[Aachen] hover:bg-black/80 rounded-e-sm px-4 py-2 bg-black">
-        <Mail class="w-4 h-4 text-white" />
+        <Send class="w-4 h-4 text-white" />
       </button>
     </form>
     <p class={cn(

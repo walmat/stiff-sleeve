@@ -90,8 +90,23 @@
     cartLoading = false;
   }
 
-  let screenWidth;
-  let screenHeight;
+  function getPrice() {
+    if (!$productData.product) return;
+
+    const variant = $productData.product.variants.edges.find((variant) => {
+      let result = variant.node.selectedOptions.every((option) => {
+        return selectedOptions[option.name].value === option.value;
+      });
+
+      if (result) {
+        return variant;
+      }
+    });
+
+    return variant.node.priceV2.amount;
+  }
+
+  console.log(JSON.stringify($productData.product, null, 2));
 </script>
 
 <svelte:head>
@@ -101,7 +116,7 @@
 <div class="h-full w-full overflow-auto">
   {#if $productData.product}
     <div class="flex flex-col md:flex-row h-full w-full">
-      <div class="flex flex-col w-full max-w-[60rem] mx-auto md:h-full h-2/3 min-h-[66.666667%] md:h-90 md:w-2/3">
+      <div class="flex relative flex-col w-full max-w-[60rem] mx-auto md:h-full h-2/3 min-h-[66.666667%] md:h-90 md:w-2/3">
         {#if browser}
           <Carousel
             bind:this={carousel}
@@ -123,6 +138,11 @@
             {/each}
           </Carousel>
         {/if}
+
+        <div class="flex flex-col font-[Aachen] absolute bottom-8 right-8 md:bottom-36 md:right-24 items-center justify-between">
+          <p class="rounded-md -rotate-12 bg-[rgba(0,0,0,0.8)] text-white px-4 py-2 md:text-xl text-md">${getPrice()} USD</p>
+          <p class="rounded-md -rotate-12 md:text-xl text-md">per sleeve</p>
+        </div>
       </div>
       <div class="h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36 pb-20">
         {#each $productData.product.options as option}

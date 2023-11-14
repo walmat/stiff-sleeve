@@ -137,7 +137,7 @@
           <Scene product={product} />
         </Canvas>
 
-        <button class="font-[Aachen] absolute bottom-24 bg-black text-white rounded-md px-6 py-2 flex left-1/2 transform -translate-x-1/2">SHOP NOW</button>
+        <button class="font-[Aachen] absolute bottom-10 md:bottom-24 bg-black text-white rounded-md px-6 py-2 flex left-1/2 transform -translate-x-1/2">SHOP NOW</button>
       </a>
     {/each}
   </div>

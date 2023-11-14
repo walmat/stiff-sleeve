@@ -10,6 +10,7 @@
   import { getProduct } from '$lib/utils/shopify';
   import { writable } from 'svelte/store';
   import { cartOpen } from '$lib/utils/store';
+  import { Instagram } from 'lucide-svelte';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -106,8 +107,6 @@
 
     return variant.node.priceV2.amount;
   }
-
-  console.log(JSON.stringify($productData.product, null, 2));
 </script>
 
 <svelte:head>
@@ -140,7 +139,7 @@
           </Carousel>
         {/if}
       </div>
-      <div class="h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36 pb-20">
+      <div class="relative h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36">
         <div class="flex flex-col gap-0 font-[Aachen]">
           <h1 class="text-lg">
             {$productData.product.title}
@@ -193,14 +192,36 @@
 
         <hr />
 
-        <div class="flex flex-col gap-1 pb-36">
+        <div class="flex flex-col gap-1">
           <p class="font-bold font-[Aachen]">Description</p>
           <p class="text-sm">{$productData.product.description}</p>
+        </div>
+
+        <div class="flex justify-between w-full py-4">
+          <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
+            <Instagram />
+            stiffsleeveco
+          </a>
+      
+          <p class="text-sm">
+            © {new Date().getFullYear()} Stiff Sleeve Co.
+          </p>
         </div>
       </div>
     </div>
     
   {/if}
+</div>
+
+<div class="flex justify-between w-full px-6 py-4">
+  <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
+    <Instagram />
+    stiffsleeveco
+  </a>
+
+  <p class="text-sm">
+    © {new Date().getFullYear()} Stiff Sleeve Co.
+  </p>
 </div>
 
 <style>

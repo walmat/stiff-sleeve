@@ -1,7 +1,7 @@
 <script>
   import { Canvas } from '@threlte/core';
   import { cn } from '$lib/utils';
-  import { Send } from 'lucide-svelte';
+  import { Instagram, Send } from 'lucide-svelte';
   import { applyAction, deserialize } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
   import Scene from '$components/sleeve/scene.svelte';
@@ -136,10 +136,23 @@
         <Canvas>
           <Scene product={product} />
         </Canvas>
+
+        <button class="font-[Aachen] absolute bottom-24 bg-black text-white rounded-md px-6 py-2 flex left-1/2 transform -translate-x-1/2">SHOP NOW</button>
       </a>
     {/each}
   </div>
 {/if}
+
+<div class="flex justify-between w-full px-6 py-4">
+  <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
+    <Instagram />
+    stiffsleeveco
+  </a>
+
+  <p class="text-sm">
+    © {new Date().getFullYear()} Stiff Sleeve Co.
+  </p>
+</div>
 
 <style>
   .grecaptcha-badge { 

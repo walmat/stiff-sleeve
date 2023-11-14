@@ -1,6 +1,7 @@
 <script>
   import Icons from '$components/Icons.svelte';
   import { createEventDispatcher } from 'svelte';
+  import { LockIcon } from 'lucide-svelte'
   const dispatch = createEventDispatcher();
   export let loading = false;
   export let items = [];
@@ -27,7 +28,7 @@
   async function checkout() {
     loading = true;
     let checkoutUrl = localStorage.getItem('cartUrl');
-    window.open(JSON.parse(checkoutUrl), '_blank');
+    window.open(JSON.parse(checkoutUrl), '_self');
     loading = false;
   }
 </script>
@@ -101,9 +102,12 @@
     {#if items.length !== 0}
       <button
         on:click={checkout}
-        class="mt-6 flex w-full items-center justify-center bg-black p-3 py-4 text-sm font-medium uppercase text-white rounded-md opacity-90 hover:opacity-100"
+        class="mt-6 flex w-full gap-4 items-center justify-center bg-black p-3 py-4 text-sm font-medium uppercase text-white rounded-md opacity-90 hover:opacity-100"
       >
         <span>Proceed to Checkout</span>
+        {#if !loading}
+          <LockIcon class="w-4 h-4 text-white" />
+        {/if}
         {#if loading}
           <div class="lds-ring ml-4">
             <div />

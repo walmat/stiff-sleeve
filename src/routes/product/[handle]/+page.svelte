@@ -198,9 +198,9 @@
         </div>
 
         <div class="flex justify-between w-full py-4">
-          <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
+          <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeve/">
             <Instagram />
-            stiffsleeveco
+            Stiff Sleeve Co
           </a>
       
           <p class="text-sm">

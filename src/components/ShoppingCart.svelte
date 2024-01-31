@@ -36,9 +36,9 @@
 <div
   class="absolute inset-0 z-50 flex max-h-screen w-full justify-end overflow-hidden bg-black/50"
 >
-  <div class="z-50 w-full bg-[#FAF9F6] p-6 px-8 md:w-1/2 lg:w-1/3 relative">
+  <div class="z-51 w-full bg-[#FAF9F6] p-6 px-4 md:w-1/2 lg:w-1/3 relative">
     {#if loading}
-      <div class="absolute inset-0 bg-black/50 z-50" />
+      <div class="absolute inset-0 bg-black/50 z-51" />
     {/if}
     <div class="mb-6 flex w-full items-center justify-between">
       <h1 class="font-[Aachen] text-lg">Shopping cart</h1>
@@ -156,6 +156,11 @@
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  h1 {
+    font-family: 'Aachen';
+    font-size: 1.25rem;
   }
 </style>
 

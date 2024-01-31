@@ -11,7 +11,7 @@ export async function load(event) {
   if (res.status === 200) {
     const products = res.body?.data?.products?.edges;
     if (products) {
-      return { products: [products[0]], authenticated };
+      return { products: products.reverse(), authenticated };
     }
     throw error(404);
   } else {

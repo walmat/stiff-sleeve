@@ -197,7 +197,7 @@
           <p class="text-sm">{$productData.product.description}</p>
         </div>
 
-        <div class="flex justify-between w-full py-4">
+        <div class="flex md:hidden items-center justify-between w-full py-4">
           <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeve/">
             <Instagram />
             Stiff Sleeve Co
@@ -213,7 +213,7 @@
   {/if}
 </div>
 
-<div class="flex justify-between w-full px-6 py-4">
+<div class="hidden md:flex items-center justify-between w-full px-6 py-4">
   <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
     <Instagram />
     stiffsleeveco

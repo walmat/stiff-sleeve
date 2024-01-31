@@ -101,7 +101,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<main class={`text-black h-full min-h-full flex flex-col overflow-hidden`}>
+<main class={`text-black h-full min-h-full flex flex-col overflow-y-scroll`}>
   {#if data.authenticated && $cartOpen}
     <ShoppingCart
       items={$cartItems}

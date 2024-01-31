@@ -130,29 +130,31 @@
     
   </div>
 {:else}
-  <div class="h-full grid grid-cols-1 w-full max-w-full">
-    {#each products as { node: product }}
-      <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-full w-full">
-        <Canvas>
-          <Scene product={product} />
-        </Canvas>
+  <div class="h-full max-w-[1400px] w-full mx-auto">
+    <div class="h-[133%] mt-24 md:mt-0 md:h-full grid grid-cols-1 md:grid-cols-2">
+      {#each products as { node: product }}
+        <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-[400px] md:h-full w-full">
+          <Canvas>
+            <Scene product={product} />
+          </Canvas>
+        </a>
+      {/each}
 
-        <button class="font-[Aachen] absolute bottom-10 md:bottom-24 bg-black text-white rounded-md px-6 py-2 flex left-1/2 transform -translate-x-1/2">SHOP NOW</button>
+      
+    </div>
+
+    <div class="flex items-center justify-between w-full px-6 py-4">
+      <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeve/">
+        <Instagram />
+        Stiff Sleeve Co
       </a>
-    {/each}
+    
+      <p class="text-sm">
+        © {new Date().getFullYear()} Stiff Sleeve Co.
+      </p>
+    </div>
   </div>
 {/if}
-
-<div class="flex justify-between w-full px-6 py-4">
-  <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeve/">
-    <Instagram />
-    Stiff Sleeve Co
-  </a>
-
-  <p class="text-sm">
-    © {new Date().getFullYear()} Stiff Sleeve Co.
-  </p>
-</div>
 
 <style>
   .grecaptcha-badge { 

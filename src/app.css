@@ -73,4 +73,9 @@
   .grecaptcha-badge {
     display: none !important;
   }
+
+  canvas {
+    pointer-events: none !important;
+    touch-action: none !important;
+  }
 }

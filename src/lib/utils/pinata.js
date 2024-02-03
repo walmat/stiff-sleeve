@@ -1,6 +1,6 @@
 import pinataSDK from '@pinata/sdk';
 
-const pinata = new pinataSDK(import.meta.env.VITE_PINATA_API_KEY, import.meta.env.VITE_PINATA_SECRET_API_KEY);
+const pinata = new pinataSDK(import.meta.env.PINATA_API_KEY, import.meta.env.PINATA_SECRET_API_KEY);
 
 export async function isAuthenticated() {
   const res = await pinata.testAuthentication();

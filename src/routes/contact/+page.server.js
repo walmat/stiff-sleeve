@@ -24,7 +24,7 @@ export const actions = {
       }
 
       // If using reCAPTCHA, validate the token here
-      const sk = import.meta.env.VITE_RECAPTCHA_SECRET_KEY;
+      const sk = import.meta.env.RECAPTCHA_SECRET_KEY;
       if (sk && !token) {
         return fail(400, {
           subscribe: {

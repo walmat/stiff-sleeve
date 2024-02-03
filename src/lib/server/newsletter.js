@@ -1,6 +1,6 @@
 export async function adminFetch({ query, variables }) {
   const endpoint = import.meta.env.VITE_SHOPIFY_API_ENDPOINT;
-  const key = import.meta.env.VITE_SHOPIFY_ADMIN_API_ACCESS_TOKEN;
+  const key = import.meta.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN;
 
   try {
     const result = await fetch(`${endpoint}/admin/api/2023-10/graphql.json`, {
@@ -25,8 +25,6 @@ export async function adminFetch({ query, variables }) {
 }
 
 export async function createCustomer(email, token) {
-  // TODO: Recaptcha validation
-
   return adminFetch({
     query: ` 
       mutation customerCreate($input: CustomerInput!) {

@@ -59,7 +59,7 @@ export const actions = {
       })
     };
 
-    const sk = import.meta.env.VITE_RECAPTCHA_SECRET_KEY;
+    const sk = import.meta.env.RECAPTCHA_SECRET_KEY;
     const token = data.get('_t');
     if (sk && !token) {
       return fail(400, {

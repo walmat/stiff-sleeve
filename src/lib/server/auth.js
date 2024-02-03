@@ -8,7 +8,7 @@ const algorithm = 'aes-256-gcm';
 const IV_LENGTH = 16;
 
 function encrypt(text) {
-  const _psk = import.meta.env.ENCRYPTION_KEY;
+  const _psk = import.meta.env.VITE_ENCRYPTION_KEY;
 
   // random initialization vector
   const iv = _crypto.randomBytes(IV_LENGTH);
@@ -36,7 +36,7 @@ function encrypt(text) {
 }
 
 function decrypt(encdata){
-  const _psk = import.meta.env.ENCRYPTION_KEY;
+  const _psk = import.meta.env.VITE_ENCRYPTION_KEY;
 
   // base64 decoding
   const bData = Buffer.from(encdata, 'base64');
@@ -61,7 +61,7 @@ function decrypt(encdata){
 }
 
 export const createSession = (password, ipAddress) => {
-  const _psk = import.meta.env.JWT_SECRET;
+  const _psk = import.meta.env.VITE_JWT_SECRET;
 
   // Create a unique session ID
   const sessionId = uuidv4();
@@ -77,7 +77,7 @@ export const createSession = (password, ipAddress) => {
 
 export const authenticateUser = async (event) => {
   const password = await getPassword();
-  const _psk = import.meta.env.JWT_SECRET;
+  const _psk = import.meta.env.VITE_JWT_SECRET;
   if (!password) {
     return true;
   }

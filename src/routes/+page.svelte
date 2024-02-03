@@ -6,25 +6,12 @@
   import { invalidateAll } from '$app/navigation';
   import Scene from '$components/sleeve/scene.svelte';
   import { preparePageTransition } from '$lib/page-transition';
+  import { sitekey, doRecaptcha } from '$lib/utils/recaptcha';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
 
-  let sitekey = '6LeRFqAoAAAAAHYzIU-yIYgs7jP_ZMmwcuF_1Naz'
-
   preparePageTransition();
-
-  async function doRecaptcha() {
-    return new Promise((resolve, reject) => {
-      grecaptcha.ready(async function() {
-        grecaptcha.execute(sitekey, { action: "submit" }).then(function(token) {
-          resolve(token);
-        }, function(error){
-          reject(error);
-        });
-      });
-    });
-  }
 
     /** @param {{ currentTarget: EventTarget & HTMLFormElement}} event */
   async function onSubmitPassword(event) {
@@ -54,7 +41,6 @@
 		});
 
 		const result = deserialize(await response.text());
-    console.log(result);
     form = result.data;
     if (result.type === 'success') {
 			// rerun all `load` functions, following the successful update

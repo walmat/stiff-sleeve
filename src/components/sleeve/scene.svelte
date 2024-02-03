@@ -1,6 +1,6 @@
 <script>
   import { T, useFrame } from '@threlte/core'
-  import { OrbitControls, useGltf } from '@threlte/extras'
+  import { useGltf } from '@threlte/extras'
   import { page } from '$app/stores';
 
   let rotation = 0
@@ -39,9 +39,7 @@
 
 <svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight} />
 
-<T.OrthographicCamera position={[0, 0, 10]} zoom={100} makeDefault>
-  <OrbitControls enabled={false} enableDamping enableZoom={false} target={[0, 0, 0]} />
-</T.OrthographicCamera>
+<T.OrthographicCamera position={[0, 0, 10]} zoom={100} makeDefault />
 
 <T.AmbientLight color="#fff" intensity={2.5} />
 <T.PointLight intensity={100} position={[4, 2, 4]} color="#fff" />

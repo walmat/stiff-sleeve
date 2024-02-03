@@ -76,6 +76,5 @@
 
   canvas {
     pointer-events: none !important;
-    touch-action: none !important;
   }
 }

@@ -32,7 +32,7 @@
         reader.onloadend = async () => {
           const formData = new FormData();
           formData.append("file", new Blob([reader.result], { type: file.type }));
-          formData.append("name", file.name);
+          formData.append("name", file.path);
 
           try {
             const response = await fetch('/api/upload-files', {
@@ -69,8 +69,6 @@
     const data = new FormData(event.target);
     data.append('_t', token);
     data.append('files', JSON.stringify(files.accepted));
-
-    console.log({data});
 
     const response = await fetch(event.target.action, {
       method: 'POST',
@@ -130,15 +128,15 @@
       placeholder="What can we help you with?"
     />
 
-    <Dropzone  on:drop={handleFilesSelect} />
+    <Dropzone on:drop={handleFilesSelect} />
 
-    <div style="margin: 5px;">
+    <div class="mt-4 flex flex-col gap-2">
       {#if files.accepted.length > 0}
         <button on:click={handleRemoveAll}>RemoveAll</button>
       {/if}
       {#each files.accepted as item, index}
-        <div>
-          <span>{item.name}</span>
+        <div class="flex justify-between w-full">
+          <span>{item.path}</span>
           <button on:click={(e) => handleRemoveFile(e, index)}>Remove</button>
         </div>
       {/each}

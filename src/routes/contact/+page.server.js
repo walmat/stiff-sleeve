@@ -10,6 +10,7 @@ export const actions = {
       const email = data.get('email');
       const order = data.get('order');
       const message = data.get('message');
+      const files = data.get('files');
       const token = data.get('_t');
 
       // Validate the inputs as necessary
@@ -60,6 +61,13 @@ export const actions = {
 
       fields.push({ name: "Message", value: message });
 
+      if (files) {
+        const parsedFiles = JSON.parse(files);
+        parsedFiles.forEach(file => {
+          fields.push({ name: "Attachments", value: `[${file.path}](https://gateway.pinata.cloud/ipfs/${file.ipfsHash})` });
+        });
+      }
+
       const discordResponse = await fetch(webhook_link, {
         method: 'POST',
         headers: {
@@ -67,7 +75,7 @@ export const actions = {
         },
         body: JSON.stringify({
           embeds: [{
-            title: "New Contact Message",
+            title: "Contact Form",
             fields,
             color: 5814783
           }]

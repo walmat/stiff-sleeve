@@ -31,25 +31,24 @@
         const reader = new FileReader();
         reader.onloadend = async () => {
           const formData = new FormData();
-          formData.append("file", reader.result);
+          formData.append("file", new Blob([reader.result], { type: file.type }));
           formData.append("name", file.name);
-          formData.append("type", file.type);
 
-            try {
-                const response = await fetch('/contact', {
-                    method: 'POST',
-                    body: formData
-                });
-                if (!response.ok) throw new Error('Failed to upload file');
-                const { status, hash } = await response.json();
-                if (status === 'success') {
-                    resolve({ ...file, ipfsHash: hash });
-                } else {
-                    reject(new Error('File upload failed'));
-                }
-            } catch (error) {
-                reject(error);
+          try {
+            const response = await fetch('/api/upload-files', {
+              method: 'POST',
+              body: formData
+            });
+            if (!response.ok) throw new Error('Failed to upload file');
+            const { status, hash } = await response.json();
+            if (status === 'success') {
+              resolve({ ...file, ipfsHash: hash });
+            } else {
+              reject(new Error('File upload failed'));
             }
+          } catch (error) {
+            reject(error);
+          }
         };
         reader.onerror = () => reject(new Error('File reading failed'));
         reader.readAsArrayBuffer(file);
@@ -69,28 +68,28 @@
     const token = await doRecaptcha();
     const data = new FormData(event.target);
     data.append('_t', token);
-    data.append('files', files.accepted);
+    data.append('files', JSON.stringify(files.accepted));
 
-    console.log(data);
+    console.log({data});
 
-    // const response = await fetch(event.target.action, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //   },
-    //   body: data
-    // });
+    const response = await fetch(event.target.action, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: data
+    });
 
-    // const result = deserialize(await response.text());
-    // form = result.data;
-    // if (result.type === 'success') {
-    //   // Handle success, such as showing a message to the user
-    //   await invalidateAll();
-    // } else {
-    //   // Handle error, such as displaying the error message to the user
-    // }
+    const result = deserialize(await response.text());
+    form = result.data;
+    if (result.type === 'success') {
+      // Handle success, such as showing a message to the user
+      await invalidateAll();
+    } else {
+      // Handle error, such as displaying the error message to the user
+    }
 
-    // applyAction(result);
+    applyAction(result);
   }
 </script>
 

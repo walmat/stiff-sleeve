@@ -75,6 +75,6 @@
   }
 
   canvas {
-    pointer-events: none !important;
+    pointer-events: auto;
   }
 }

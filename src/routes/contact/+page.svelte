@@ -7,10 +7,12 @@
   import { applyAction, deserialize } from '$app/forms';
   import { doRecaptcha } from '$lib/utils/recaptcha';
   import Footer from "../../components/Footer.svelte";
+  import { File, TrashIcon } from "lucide-svelte";
 
   export let data;
 
   let files = [];
+  let message = '';
 
   const { form, errors, constraints, delayed, submitting, validate } = superForm(data.form, {
     applyAction: true,
@@ -95,6 +97,9 @@
     const result = deserialize(await response.text());
     if (result.type === 'success') {
       // Handle success, such as showing a message to the user
+      files = [];
+      message = 'Your message has been sent successfully!';
+      setTimeout(() => message = '', 5000);
       await invalidateAll();
     } else {
       // Handle error, such as displaying the error message to the user
@@ -134,7 +139,7 @@
       />
       {#if $errors.email}<span class="invalid">{$errors.email}</span>{/if}
 
-      <label for="orderNumber" class="font-[Aachen] text-neutral-600">Order Number</label>
+      <label for="orderNumber" class="font-[Aachen] text-neutral-600">Order Number (optional)</label>
       <input
         name="orderNumber"
         bind:value={$form.orderNumber}
@@ -154,19 +159,27 @@
       />
       {#if $errors.message}<span class="invalid">{$errors.message}</span>{/if}
 
-      <Dropzone maxSize={5242880} on:drop={handleFilesSelect} />
+
+      <label for="files" class="font-[Aachen] text-neutral-600">Attachments</label>
+      <Dropzone name="files" maxSize={5242880} on:drop={handleFilesSelect} />
 
       <div class="mt-4 flex flex-col gap-2">
-        {#if files.length > 0}
-          <button on:click={handleRemoveAll}>RemoveAll</button>
-        {/if}
         {#each files as item, index}
-          <div class="flex justify-between w-full">
-            <span>{item.path}</span>
-            <button on:click={(e) => handleRemoveFile(e, index)}>Remove</button>
+          <div class="flex justify-between w-full px-2">
+            <div class="flex items-center gap-2">
+              <File class="w-4 h-4" />
+              <span>{item.path}</span>
+            </div>
+            <button on:click={(e) => handleRemoveFile(e, index)}>
+              <TrashIcon class="w-4 h-4 text-red-600" />
+            </button>
           </div>
         {/each}
       </div>
+
+      {#if message}
+        <p class="w-full text-center text-green-600 text-sm">{message}</p>
+      {/if}
 
       <button disabled={$submitting || $delayed} type="submit" class="font-[Aachen] hover:bg-black/80 rounded-sm px-4 py-2 bg-black text-white">
         {#if $submitting}
@@ -178,6 +191,7 @@
         {/if}
       </button>
     </form>
+
   </div>
 
   <div class="relative md:absolute md:bottom-0 md:left-0 w-full">

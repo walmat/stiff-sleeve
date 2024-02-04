@@ -22,10 +22,6 @@
     resetForm: true  
   });
 
-  function handleRemoveAll() {
-    files = [];
-  }
-
   function handleRemoveFile(_, index) {
     files.splice(index, 1);
     files = [...files];
@@ -112,7 +108,7 @@
 <div class="h-full w-full">
   <div class="container h-full px-5 py-24 mx-auto">
     <form
-      class="group flex flex-col gap-4"
+      class="group flex flex-col max-w-[40rem] mx-auto gap-4"
       action="?/contact"
       method="POST"
       on:submit|preventDefault={onContactSubmit}

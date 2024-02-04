@@ -47,7 +47,9 @@
       </section>
     </div>
   </section>
-  <Footer />
+  <div class="relative md:absolute md:bottom-0 md:left-0 w-full">
+    <Footer />
+  </div>
 
 </div>
 

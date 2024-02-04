@@ -7,7 +7,7 @@ export async function isAuthenticated() {
   return res.authenticated;
 }
 
-export async function pinFileToIPFS(stream, name, ssid) {
+export async function pinFileToIPFS(stream, name) {
   if (!stream || !name) {
     throw new Error('No file provided');
   }
@@ -16,11 +16,9 @@ export async function pinFileToIPFS(stream, name, ssid) {
     throw new Error('Not authenticated');
   }
 
-  const fileName = ssid ? `${ssid}-${name}` : name;
-
   const res = await pinata.pinFileToIPFS(stream, {
     pinataMetadata: {
-      name: fileName,
+      name,
     },
   });
 

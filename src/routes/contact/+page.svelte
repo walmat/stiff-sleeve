@@ -13,10 +13,12 @@
   let files = [];
 
   const { form, errors, constraints, delayed, submitting, validate } = superForm(data.form, {
-    applyAction: false,
+    applyAction: true,
     timeoutMs: 10000,
-    delayMs: 1000,    
-  })
+    delayMs: 1000,  
+    clearOnSubmit: true,
+    resetForm: true  
+  });
 
   function handleRemoveAll() {
     files = [];

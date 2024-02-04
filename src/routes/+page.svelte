@@ -1,12 +1,13 @@
 <script>
   import { Canvas } from '@threlte/core';
   import { cn } from '$lib/utils';
-  import { Instagram, Send } from 'lucide-svelte';
+  import { Send } from 'lucide-svelte';
   import { applyAction, deserialize } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
+  import Footer from '$components/Footer.svelte';
   import Scene from '$components/sleeve/scene.svelte';
   import { preparePageTransition } from '$lib/page-transition';
-  import { sitekey, doRecaptcha } from '$lib/utils/recaptcha';
+  import { doRecaptcha } from '$lib/utils/recaptcha';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -129,15 +130,8 @@
       
     </div>
 
-    <div class="flex items-center justify-between w-full px-6 py-4">
-      <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeve/">
-        <Instagram />
-        Stiff Sleeve Co
-      </a>
-    
-      <p class="text-sm">
-        © {new Date().getFullYear()} Stiff Sleeve Co.
-      </p>
+    <div class="relative md:absolute md:bottom-0 md:left-0 w-full">
+      <Footer />
     </div>
   </div>
 {/if}

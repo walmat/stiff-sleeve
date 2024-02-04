@@ -1,3 +1,7 @@
+<script>
+  import Footer from '$components/Footer.svelte';
+</script>
+
 <svelte:head>
   <title>Stiff Sleeve Co. | Return Policy</title>
 </svelte:head>
@@ -43,7 +47,10 @@
       </section>
     </div>
   </section>
+  <Footer />
+
 </div>
+
 
 <style>
   h2 {

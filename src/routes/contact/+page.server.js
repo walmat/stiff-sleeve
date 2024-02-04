@@ -1,31 +1,37 @@
-import { error, json } from '@sveltejs/kit';
+import { z } from "zod"
+import { fail } from '@sveltejs/kit';
 
-const webhook_link = 'https://discord.com/api/webhooks/1203123705924821052/mvQl2FYg0E6cAg_ZQzN4gLlN74LxxLlfz69NEf_5utjqybNRlmfhIYN7lQGM-wmGhybj';
+import { superValidate } from 'sveltekit-superforms/server';
+
+const contactSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  orderNumber: z.string().optional(),
+  message: z.string().min(1),
+  _t: z.string(),
+})
+
+export const load = (async () => {
+  const form = await superValidate(contactSchema);
+
+  return { form };
+});
 
 export const actions = {
   contact: async ({ request }) => {
-    try {
-      const data = await request.formData();
-      const name = data.get('name');
-      const email = data.get('email');
-      const order = data.get('order');
-      const message = data.get('message');
-      const files = data.get('files');
-      const token = data.get('_t');
+    const formData = await request.formData();
 
-      // Validate the inputs as necessary
-      if (!name || !email || !message) {
-        return fail(400, {
-          contact: {
-            success: false,
-            message: 'Please fill in all required fields.',
-          }
-        });
+    try {
+      const form = await superValidate(formData, contactSchema);
+      if (!form.valid) {
+        return fail(400, { form });
       }
+
+      const { _t, ...data } = form.data;
 
       // If using reCAPTCHA, validate the token here
       const sk = import.meta.env.VITE_RECAPTCHA_SECRET_KEY;
-      if (sk && !token) {
+      if (sk && !_t) {
         return fail(400, {
           subscribe: {
             success: false,
@@ -34,8 +40,8 @@ export const actions = {
         })
       }
 
-      if (token) {
-        const url = `https://www.google.com/recaptcha/api/siteverify?secret=${sk}&response=${token}`;
+      if (_t) {
+        const url = `https://www.google.com/recaptcha/api/siteverify?secret=${sk}&response=${_t}`;
         const response = await fetch(url, {
           method: 'post',
         })
@@ -51,24 +57,39 @@ export const actions = {
       }
 
       const fields = [
-        { name: "Name", value: name },
-        { name: "Email", value: email },
+        { name: "Name", value: data.name },
+        { name: "Email", value: data.email },
       ];
 
-      if (order) {
-        fields.push({ name: "Order", value: order });
+      if (data.orderNumber) {
+        fields.push({ name: "Order #", value: data.orderNumber });
       }
 
-      fields.push({ name: "Message", value: message });
+      fields.push({ name: "Message", value: data.message });
 
-      if (files) {
+      try {
+        const files = formData.get('files');
         const parsedFiles = JSON.parse(files);
-        parsedFiles.forEach(file => {
-          fields.push({ name: "Attachments", value: `[${file.path}](https://gateway.pinata.cloud/ipfs/${file.ipfsHash})` });
+        if (parsedFiles.length) {
+          parsedFiles.forEach(file => {
+            fields.push({ name: "Attachments", value: `[${file.path}](https://gateway.pinata.cloud/ipfs/${file.ipfsHash})` });
+          });
+        }
+      } catch (err) {
+        // noop
+      }
+
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      if (!webhookUrl) {
+        return fail(500, {
+          contact: {
+            success: false,
+            message: 'The contact form is not configured properly.',
+          }
         });
       }
 
-      const discordResponse = await fetch(webhook_link, {
+      const discordResponse = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +119,8 @@ export const actions = {
         }
       };
     } catch (err) {
-      return error(500, 'An unexpected error occurred.');
+      console.log(err);
+      return fail(500, 'An unexpected error occurred.');
     }
   }
 };

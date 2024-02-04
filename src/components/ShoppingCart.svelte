@@ -36,7 +36,7 @@
 <div
   class="absolute inset-0 z-50 flex max-h-screen w-full justify-end overflow-hidden bg-black/50"
 >
-  <div class="z-51 w-full bg-[#FAF9F6] p-6 px-4 md:w-1/2 lg:w-1/3 relative">
+  <div class="z-51 w-full bg-[#FAF9F6] pt-5 pb-5 pr-8 pl-4 md:w-1/2 lg:w-1/3 relative">
     {#if loading}
       <div class="absolute inset-0 bg-black/50 z-51" />
     {/if}

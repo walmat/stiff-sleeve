@@ -17,7 +17,7 @@
 	export let shouldShow;
 </script>
 
-<nav class="flex items-center p-4 lg:px-6 fixed top-0 w-full z-10">
+<nav class="flex items-center p-4 lg:px-6 fixed top-0 w-full bg-[#FAF9F6] z-10">
   <div class="flex w-full items-center">
     <div class="mr-4" class:active={currentRoute === '/'}>
       <a href="/" data-sveltekit-prefetch class="">

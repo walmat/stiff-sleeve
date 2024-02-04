@@ -11,6 +11,7 @@
   import { writable } from 'svelte/store';
   import { cartOpen } from '$lib/utils/store';
   import { Instagram } from 'lucide-svelte';
+  import Footer from '$components/Footer.svelte';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -197,31 +198,19 @@
           <p class="text-sm">{$productData.product.description}</p>
         </div>
 
-        <div class="flex md:hidden items-center justify-between w-full py-4">
-          <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeve/">
-            <Instagram />
-            Stiff Sleeve Co
-          </a>
-      
-          <p class="text-sm">
-            © {new Date().getFullYear()} Stiff Sleeve Co.
-          </p>
-        </div>
+        
+      </div>
+
+      <div class="flex md:hidden">
+        <Footer />
       </div>
     </div>
     
   {/if}
 </div>
 
-<div class="hidden md:flex items-center justify-between w-full px-6 py-4">
-  <a rel="noreferrer" class="flex gap-2 items-center justify-start" target="_blank" href="https://www.instagram.com/stiffsleeveco/">
-    <Instagram />
-    stiffsleeveco
-  </a>
-
-  <p class="text-sm">
-    © {new Date().getFullYear()} Stiff Sleeve Co.
-  </p>
+<div class="hidden md:flex">
+  <Footer />
 </div>
 
 <style>

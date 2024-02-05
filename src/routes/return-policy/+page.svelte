@@ -31,7 +31,7 @@
       </section>
       <section>
         <h2 class="text-lg mb-3 font-medium title-font text-gray-900">Return Process</h2>
-        <p class="leading-relaxed mb-3">To initiate a return, please fill out the contact form at (HYPERLINK TO CONTACT PAGE). Our team will guide you through the return process. Please allow 3-5 business days for responses.</p>
+        <p class="leading-relaxed mb-3">To initiate a return, please <a class="font-bold underline" href="/contact">fill out our contact form</a>. Our team will guide you through the return process. Please allow 3-5 business days for responses.</p>
       </section>
       <section>
         <h2 class="text-lg mb-3 font-medium title-font text-gray-900">Refund Policy</h2>

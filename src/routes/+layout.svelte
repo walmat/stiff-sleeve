@@ -1,6 +1,7 @@
 <script>
   import "../app.css";
   import '../fonts.css';
+  import { afterNavigate } from '$app/navigation';
   import Header from '$components/Header.svelte';
   import ShoppingCart from '$components/ShoppingCart.svelte';
   import { getCartItems, cartOpen, cartItems } from '$lib/utils/store';
@@ -11,6 +12,10 @@
   let cartId;
   let checkoutUrl;
   let cartCreatedAt;
+
+  afterNavigate(() => {
+    document.getElementById('page')?.scrollTo(0, 0);
+  });
 
   onMount(async () => {
     if (typeof window !== 'undefined') {
@@ -101,7 +106,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<main class={`text-black h-full min-h-full flex flex-col overflow-y-scroll`}>
+<main id="page" class={`text-black h-full min-h-full flex flex-col overflow-y-scroll`}>
   {#if data.authenticated && $cartOpen}
     <ShoppingCart
       items={$cartItems}

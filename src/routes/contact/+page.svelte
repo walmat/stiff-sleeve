@@ -116,6 +116,7 @@
       <label for="name" class="font-[Aachen] text-neutral-600">Name</label>
       <input
         name="name"
+        autocapitalize="words"
         bind:value={$form.name}
         aria-invalid={$errors.name ? 'true' : undefined}
         {...$constraints.name}
@@ -127,6 +128,7 @@
       <label for="email" class="font-[Aachen] text-neutral-600">Email Address</label>
       <input
         name="email"
+        autocapitalize="off"
         bind:value={$form.email}
         aria-invalid={$errors.email ? 'true' : undefined}
         {...$constraints.email}
@@ -147,6 +149,7 @@
       <textarea
         id="message"
         name="message"
+        autocapitalize="sentences"
         bind:value={$form.message}
         aria-invalid={$errors.message ? 'true' : undefined}
         {...$constraints.message}

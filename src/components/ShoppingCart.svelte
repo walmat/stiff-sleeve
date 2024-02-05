@@ -41,7 +41,7 @@
       <div class="absolute inset-0 bg-black/50 z-51" />
     {/if}
     <div class="mb-6 flex w-full items-center justify-between">
-      <h1 class="font-[Aachen] text-lg">Shopping cart</h1>
+      <h1 class="font-[Aachen] mt-[1px] text-lg">Shopping cart</h1>
       <button on:click class="text-sm uppercase opacity-80 hover:opacity-100">
         <Icons strokeColor="#000" type="close" />
       </button>

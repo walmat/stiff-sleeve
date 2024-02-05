@@ -99,12 +99,8 @@
 	/** @type {import('./$types').LayoutData} */
 	export let data;
 
-  let screenSize;
-
   $: route = $page.url.pathname 
 </script>
-
-<svelte:window bind:innerWidth={screenSize} />
 
 <main id="page" class={`text-black h-full min-h-full flex flex-col overflow-y-scroll`}>
   {#if data.authenticated && $cartOpen}

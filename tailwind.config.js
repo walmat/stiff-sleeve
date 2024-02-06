@@ -13,6 +13,9 @@ const config = {
 			}
 		},
 		extend: {
+			screens: {
+				'tall': { 'raw': '(min-height: 674px)' },
+			},
 			colors: {
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",

@@ -140,7 +140,7 @@
           </Carousel>
         {/if}
       </div>
-      <div class="relative h-full flex flex-col gap-4 p-6 pt-0 overflow-hidden md:w-1/3 md:pt-36">
+      <div class="relative h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36">
         <div class="flex flex-col gap-0 font-[Aachen]">
           <h1 class="text-lg">
             {$productData.product.title}

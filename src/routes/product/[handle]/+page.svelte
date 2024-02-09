@@ -114,7 +114,7 @@
   <title>{$productData.product.title}</title>
 </svelte:head>
 
-<div class="h-full w-full overflow-auto md:pt-0 pt-[70px] tall:pt-0">
+<div class="h-full w-full overflow-auto tall:pt-0">
   {#if $productData.product}
     <div class="flex flex-col md:flex-row md:overflow-hidden h-full w-full">
       <div class="flex flex-col w-full max-w-[60rem] mx-auto md:h-full md:mt-[70px] h-2/3 min-h-[66.666667%] md:h-70 md:w-2/3">

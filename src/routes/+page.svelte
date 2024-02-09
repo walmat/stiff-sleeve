@@ -14,7 +14,7 @@
 
   preparePageTransition();
 
-    /** @param {{ currentTarget: EventTarget & HTMLFormElement}} event */
+  /** @param {{ currentTarget: EventTarget & HTMLFormElement}} event */
   async function onSubmitPassword(event) {
 		const data = new FormData(event.target);
     const response = await fetch(event.target.action, {
@@ -118,9 +118,9 @@
   </div>
 {:else}
   <div class="h-full max-w-[1400px] w-full mx-auto">
-    <div class="h-[133%] mt-24 md:mt-0 md:h-full grid grid-cols-1 md:grid-cols-2">
+    <div class="h-[133%] mt-[7.5rem] md:mt-0 md:h-full grid grid-cols-1 md:grid-cols-2">
       {#each products as { node: product }}
-        <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-[400px] md:h-full w-full" style="pointer-events: none;">
+        <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-[400px] md:h-screen md:mt-[70px] w-full" style="pointer-events: none;">
           <Canvas style="pointer-events: auto;">
             <Scene product={product} />
           </Canvas>

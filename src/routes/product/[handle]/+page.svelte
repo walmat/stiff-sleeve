@@ -117,7 +117,7 @@
 <div class="h-full w-full overflow-auto md:pt-0 pt-[70px] tall:pt-0">
   {#if $productData.product}
     <div class="flex flex-col md:flex-row h-full w-full">
-      <div class="flex flex-col w-full max-w-[60rem] mx-auto md:h-full h-2/3 min-h-[66.666667%] md:h-90 md:w-2/3">
+      <div class="flex flex-col w-full max-w-[60rem] mx-auto md:h-full md:mt-[70px] h-2/3 min-h-[66.666667%] md:h-90 md:w-2/3">
         {#if browser}
           <Carousel
             bind:this={carousel}
@@ -140,7 +140,7 @@
           </Carousel>
         {/if}
       </div>
-      <div class="relative h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36">
+      <div class="relative h-full flex flex-col gap-4 p-6 pt-0 overflow-hidden md:w-1/3 md:pt-36">
         <div class="flex flex-col gap-0 font-[Aachen]">
           <h1 class="text-lg">
             {$productData.product.title}
@@ -201,16 +201,12 @@
         
       </div>
 
-      <div class="flex md:hidden">
+      <div class="relative md:absolute md:bottom-0 md:left-0 w-full">
         <Footer />
       </div>
     </div>
     
   {/if}
-</div>
-
-<div class="hidden md:flex">
-  <Footer />
 </div>
 
 <style>

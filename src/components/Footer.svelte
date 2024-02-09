@@ -5,7 +5,7 @@
   <a rel="noreferrer" class="flex items-end text-sm text-black font-bold" target="_blank" href="https://www.instagram.com/stiffsleeve/">
     <Instagram />
   </a>
-  <div class="flex flex-col gap-2 justify-between items-end">
+  <div class="flex flex-col flex-1 gap-2 justify-between items-end">
     <a class="text-sm text-neutral-600 flex gap-2 items-center font-bold" href="/contact">
       <StickyNote class="w-4 h-4" />
       Contact

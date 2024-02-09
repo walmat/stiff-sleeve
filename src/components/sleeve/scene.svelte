@@ -33,7 +33,7 @@
 			denominator = 45;
 		}
 	
-		return -Math.max(innerHeight, 900) / (Math.max(minScale, Math.min(maxScale, innerWidth)) * denominator);
+		return -Math.max(innerHeight, 875) / (Math.max(minScale, Math.min(maxScale, innerWidth)) * denominator);
 	}
 </script>
 

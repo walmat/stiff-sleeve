@@ -28,7 +28,7 @@ export async function shopifyFetch({ query, variables }) {
 export async function getAllProducts() {
   return shopifyFetch({
     query: `{
-      products(sortKey: TITLE, first: 100) {
+      products(sortKey: UPDATED_AT, first: 100) {
           edges{
             node {
                 id

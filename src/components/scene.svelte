@@ -44,10 +44,10 @@
 <T.AmbientLight color="#fff" intensity={2.5} />
 <T.PointLight intensity={100} position={[4, 2, 4]} color="#fff" />
 
-{#await useGltf(`/models/${product.handle}.glb`, { useDraco: true }) then sleeve}
+{#await useGltf(`/models/${product.handle}.glb`, { useDraco: true, useMeshopt: true }) then model}
   <T
 		tag={product.name}
-		is={sleeve.scene}
+		is={model.scene}
 		position={[0, getYPosition(), 0]}
 		scale={[Math.max(minScale, Math.min(maxScale, innerWidth / 100)), Math.max(minScale, Math.min(maxScale, innerWidth / 100)), Math.max(minScale, Math.min(maxScale, innerWidth / 100))]} 
 		rotation.y={rotation}

@@ -6,11 +6,10 @@
   import Carousel from '$components/carousel';;
   import { browser } from '$app/environment';
   import { getCartItems } from '$lib/utils/store';
-  import Scene from "$components/sleeve/scene.svelte";
+  import Scene from '$components/scene.svelte';
   import { getProduct } from '$lib/utils/shopify';
   import { writable } from 'svelte/store';
   import { cartOpen } from '$lib/utils/store';
-  import { Instagram } from 'lucide-svelte';
   import Footer from '$components/Footer.svelte';
 
   /** @type {import('./$types').PageData} */
@@ -114,18 +113,20 @@
   <title>{$productData.product.title}</title>
 </svelte:head>
 
-<div class="h-full w-full overflow-auto tall:pt-0">
+<div class="w-full h-full overflow-auto tall:pt-0">
   {#if $productData.product}
-    <div class="flex flex-col md:flex-row md:overflow-hidden h-full w-full">
+    <div class="flex flex-col w-full h-full md:flex-row md:overflow-hidden">
       <div class="flex flex-col w-full max-w-[60rem] mx-auto md:h-full md:mt-[70px] h-2/3 min-h-[66.666667%] md:h-70 md:w-2/3">
         {#if browser}
           <Carousel
             bind:this={carousel}
             dots={false}
           >
-            <Canvas>
-              <Scene product={$productData.product} />
-            </Canvas>
+            {#if $productData.product.containsModel}
+              <Canvas>
+                <Scene product={$productData.product} />
+              </Canvas>
+            {/if}
 
             {#each $productData.product.images.edges as image}
               <img
@@ -140,18 +141,18 @@
           </Carousel>
         {/if}
       </div>
-      <div class="relative h-full flex flex-col gap-4 p-6 pt-0 md:w-1/3 md:pt-36">
+      <div class="relative flex flex-col h-full gap-4 p-6 pt-0 md:w-1/3 md:pt-36">
         <div class="flex flex-col gap-0 font-[Aachen]">
           <h1 class="text-lg">
             {$productData.product.title}
           </h1>
 
           <div class="flex items-center justify-between">
-            <p class=" text-sm">${getPrice()} USD</p>
+            <p class="text-sm ">${getPrice()} USD</p>
           </div>
         </div>
         {#each $productData.product.options as option}
-          <div class="flex gap-1 flex-col">
+          <div class="flex flex-col gap-1">
             <p class="font-bold font-[Aachen]">Select a {option.name.toLowerCase()}</p>
             <Select.Root bind:selected={selectedOptions[option.name]} onSelectedChange={e => selectedOptions[option.name] = e.value}>
               <Select.Trigger class="w-full">
@@ -182,7 +183,7 @@
             Add to Cart
           {/if}
           {#if cartLoading}
-            <div class="lds-ring ml-4">
+            <div class="ml-4 lds-ring">
               <div />
               <div />
               <div />
@@ -201,7 +202,7 @@
         
       </div>
 
-      <div class="relative md:absolute md:bottom-0 md:left-0 w-full">
+      <div class="relative w-full md:absolute md:bottom-0 md:left-0">
         <Footer />
       </div>
     </div>

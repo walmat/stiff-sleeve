@@ -5,7 +5,7 @@
   import { applyAction, deserialize } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
   import Footer from '$components/Footer.svelte';
-  import Scene from '$components/sleeve/scene.svelte';
+  import Scene from '$components/scene.svelte';
   import { preparePageTransition } from '$lib/page-transition';
   import { doRecaptcha } from '$lib/utils/recaptcha';
 
@@ -66,9 +66,9 @@
 <svelte:window bind:innerWidth={screenSize} />
 
 {#if !data.authenticated}
-  <div class="h-full w-full flex flex-col justify-center gap-y-20 items-center">  
+  <div class="flex flex-col items-center justify-center w-full h-full gap-y-20">  
     <form 
-      class="group flex flex-col gap-4 mt-36"
+      class="flex flex-col gap-4 group mt-36"
       action="?/password"
       method="post"
       on:submit|preventDefault={onSubmitPassword}
@@ -87,7 +87,7 @@
     </form>
 
     <form
-      class="group flex flex-row gap-0 mt-36 -mb-36"
+      class="flex flex-row gap-0 group mt-36 -mb-36"
       action="?/subscribe"
       method="POST"
       on:submit|preventDefault={onSubscribe}
@@ -118,19 +118,21 @@
   </div>
 {:else}
   <div class="h-full max-w-[1400px] w-full mx-auto">
-    <div class="h-[133%] mt-[7.5rem] md:mt-0 md:h-full grid grid-cols-1 md:grid-cols-2">
+    <div class="h-[133%] my-[7.5rem] md:mt-0 md:h-full grid grid-cols-1 lg:grid-cols-2">
       {#each products as { node: product }}
-        <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-[400px] md:h-screen md:mt-[70px] w-full" style="pointer-events: none;">
-          <Canvas style="pointer-events: auto;">
-            <Scene product={product} />
-          </Canvas>
+        <a data-sveltekit-preload-data href="/product/{product.handle}" class="relative h-[400px] md:h-screen md:mt-[70px] w-full flex justify-center items-center" style="pointer-events: none;">
+          {#if product.containsModel}
+            <Canvas style="pointer-events: auto;">
+              <Scene product={product} />
+            </Canvas>
+          {:else}
+            <img src={product.images.edges[0]?.node.originalSrc} alt={product.title} class="object-cover w-full h-full max-h-[800px] py-7.5 pointer-events-auto" />
+          {/if}
         </a>
       {/each}
-
-      
     </div>
 
-    <div class="relative md:absolute md:bottom-0 md:left-0 w-full">
+    <div class="relative w-full md:absolute md:bottom-0 md:left-0">
       <Footer />
     </div>
   </div>

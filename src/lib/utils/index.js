@@ -52,3 +52,5 @@ export const flyAndScale = (
     easing: cubicOut
   };
 };
+
+export const productsWithModels = ['black-stiff-sleeve', 'white-stiff-sleeve'];

@@ -1,9 +1,9 @@
-import { promises as fs } from 'fs';
 import { getAllProducts } from '$lib/utils/shopify';
 import { createCustomer } from '$lib/server/newsletter';
 import { authenticateUser, createSession } from '$lib/server/auth';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { getPassword } from '$lib/server/sanity';
+import { productsWithModels } from '$lib/utils';
 
 /** @type {import('./$types').RequestHandler} */
 export async function load(event) {
@@ -13,16 +13,14 @@ export async function load(event) {
     const products = res.body?.data?.products?.edges;
     if (products) {
       // Check if the model file exists for each product
-      const productsWithModelCheck = await Promise.all(products.map(async (product) => {
-        const modelPath = `static/models/${product.node.handle}.glb`;
-        try {
-          await fs.access(modelPath, fs.constants.F_OK);
+      const productsWithModelCheck = products.map((product) => {
+        if (productsWithModels.includes(product.node.handle)) {
           product.node.containsModel = true;
-        } catch {
+        } else {
           product.node.containsModel = false;
         }
         return product;
-      }));
+      });
 
       return { products: productsWithModelCheck.reverse(), authenticated };
     }

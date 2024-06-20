@@ -1,6 +1,7 @@
 import { getProduct } from '$lib/utils/shopify';
 import { error, redirect } from '@sveltejs/kit';
-import { authenticateUser } from '../../../lib/server/auth.js';
+import { authenticateUser } from '$lib/server/auth';
+import { productsWithModels } from '$lib/utils';
 
 export async function load(event) {
   const { params } = event;
@@ -12,11 +13,9 @@ export async function load(event) {
   if (res.status === 200) {
     const product = res.body?.data?.productByHandle;
     if (product) {
-      const modelPath = `static/models/${product.handle}.glb`;
-      try {
-        await fs.access(modelPath, fs.constants.F_OK);
+      if (productsWithModels.includes(product.handle)) {
         product.containsModel = true;
-      } catch {
+      } else {
         product.containsModel = false;
       }
 

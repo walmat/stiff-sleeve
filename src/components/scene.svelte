@@ -44,7 +44,7 @@
 <T.AmbientLight color="#fff" intensity={2.5} />
 <T.PointLight intensity={100} position={[4, 2, 4]} color="#fff" />
 
-{#await useGltf(`/models/${product.handle}.glb`, { useDraco: true, useMeshopt: true }) then model}
+{#await useGltf(`/models/${product.handle}.glb`, { useDraco: true }) then model}
   <T
 		tag={product.name}
 		is={model.scene}

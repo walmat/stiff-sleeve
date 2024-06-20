@@ -11,6 +11,7 @@
   import { writable } from 'svelte/store';
   import { cartOpen } from '$lib/utils/store';
   import Footer from '$components/Footer.svelte';
+  import { productsWithModels } from '$lib/utils';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -26,6 +27,12 @@
     if (res.status === 200) {
       const product = res.body?.data?.productByHandle;
       if (product) {
+        if (productsWithModels.includes(product.handle)) {
+          product.containsModel = true;
+          } else {
+          product.containsModel = false;
+        }
+
         productData.set({
           product,
         });
